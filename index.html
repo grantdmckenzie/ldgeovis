@@ -35,7 +35,14 @@
     <h3>SubClasses</h3>
     <select type="text" id="subclassselect" class="sbar" style="width:285px;"></select>
     <div class="btn" id="doQuerySubClasses">GET SUBCLASSES</div>
+    
+    <h3>Page Size</h3>
+    <select type="text" id="limit" class="sbar" style="width:285px;"><option value="100">100</option><option value="50">50</option><option value="20">20</option></select>
+    <div style="margin: 8px 0px -3px 0px; display: none;" id="rExtent"><input type="checkbox" id="extent"/> Restrict to Map Extent</div>
+    <div style="margin: 8px 0px -3px 10px;color:#880000" id="wExtent">Zoom In to Restrict to Map Extent</div>
     <div class="btn" id="doQueryEntities">GET ENTITIES OF TYPE</div>
+    <div class="btn" id="loadingbtn" style="display:none;background-color:#fff"><img src="img/loading.gif"/></div>
+    
   </div>
   <div id="sidebar3" class="sidebar">
     <div id="back3"/></div>

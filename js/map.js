@@ -5,6 +5,7 @@
   var _ontology = null;
   var _format = null;
   var group = null;
+  var markers = [];
 
   $(function() {
       _map = L.map('map').setView([20,10], 3);
@@ -23,6 +24,15 @@
       });
       $('#back3').on('click', function() {
 	  back3();
+      });
+      _map.on('zoomend', function() {
+	  if (_map.getZoom() >= 7) {
+	      $('#rExtent').show();
+	      $('#wExtent').hide();
+	  } else {
+	      $('#rExtent').hide();
+	      $('#wExtent').show();
+	  }
       });
       
       
@@ -48,6 +58,7 @@
 	    type: 'GET',
 	    dataType: 'json',
 	    success: function(data, textStatus, xhr) {
+		
 		displayResults(data.results.bindings);
 	    },
 	    error: function(xhr, textStatus, errorThrown) {
@@ -57,11 +68,18 @@
   }
   
   function doQueryEntities() {
-      var limit = 100;
+      $('#doQueryEntities').hide();
+      $('#loadingbtn').show();
+      var limit = $('#limit').val();
       var oclass = $('#subclassselect').val();
       var prefix = "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>";
+      var extent = "";
+      if ($('#extent').is(":checked")) {
+	  var b = _map.getBounds();
+	  extent = " . ?e geo:lat ?lat . ?e geo:long ?long . FILTER ( ?long > "+b.getWest()+" && ?long < "+b.getEast()+" && ?lat > "+b.getSouth()+" && ?lat < "+b.getNorth()+")";
+      }
+      var query = "select ?e (group_concat(?c; separator = \"|\") as ?g) where {?e a <" + oclass + "> . ?e geo:geometry ?c" + extent +"}";
       
-      var query = "select ?e (group_concat(?c; separator = \"|\") as ?g) where {?e a <" + oclass + "> . ?e geo:geometry ?c}";
       var url = _sparql + "?default-graph-uri=" + encodeURIComponent(_graph) + "&query=" + encodeURIComponent(prefix + " " + query + " order by ?e limit " + limit) + "&format=" + encodeURIComponent(_format) + "&timeout=3000&debug=on";
     
       
@@ -70,6 +88,7 @@
 	    type: 'GET',
 	    dataType: 'json',
 	    success: function(data, textStatus, xhr) {
+		
 		displayEntity(data.results.bindings);
 		mapEntity(data.results.bindings);
 	    },
@@ -97,22 +116,31 @@
       $('#sidebar2').hide();
       $('#sidebar3').show();
       $('#results').html("");
+      var counter = 0;
       for(var i=0;i<d.length;i++) {
 	  var li = d[i].e.value.lastIndexOf('/');
 	  var x = d[i].e.value.substr(li+1,d[i].e.value.length-li);
-	  var ent = "<div id='"+d[i].e.value+"' class='resultentity'>"+decodeURIComponent(x)+"</div>";
+	  var ent = "<div id='l"+counter+"' class='resultentity' onclick='showMarkerPopup("+i+",\""+d[i].e.value+"\")'>"+decodeURIComponent(x)+"</div>";
 	  $('#results').append(ent);
+	  counter++;
       }
+  }
+  
+  function showMarkerPopup(i, uri) {
+      markers[i].openPopup();
+      getDetails(uri, i);
   }
   
   function back3() {
       $('#sidebar1').hide();
       $('#sidebar3').hide();
       $('#sidebar2').show();
+      $('#doQueryEntities').show();
+      $('#loadingbtn').hide();
   }
   
   function mapEntity(m) {
-      var markers = [];
+      markers = [];
       if(_map.hasLayer(group)) {
 	  _map.removeLayer(group);
       }
@@ -131,21 +159,22 @@
 			      'maxWidth': '600',
 			      'closeButton': true
 			  }
-	  x.bindPopup("<b>"+decodeURIComponent(m[i].e.value)+"</b><br/><div id='pop"+i+"' class='popupdiv'><img src='img/loading.gif' style='margin-left:180px;margin-top:100px'/></div>", popupOptions);
+	  x.bindPopup("<b>"+decodeURIComponent(m[i].e.value)+"</b><br/><div id='pop"+i+"' class='popupdiv'><img src='img/loading.gif' style='margin-left:380px;margin-top:100px'/></div>", popupOptions);
 	  x.urig = m[i].e.value;
 	  x.idg = i;
 	  x.on('click', function(e) {
-	      getDetails(encodeURIComponent(this.urig), this.idg);
+	      getDetails(this.urig, this.idg);
 	  });
 	  markers.push(x);
       }
       group = L.layerGroup(markers);
       _map.addLayer(group);
+     
   }
   
   function getDetails(uri, idg) {
       var limit = 100;
-      var query = "select ?a ?b where {<" + decodeURIComponent(uri) + "> ?a ?b}";
+      var query = "select ?a ?b where {<" + uri + "> ?a ?b}";
       var url = _sparql + "?default-graph-uri=" + encodeURIComponent(_graph) + "&query=" + encodeURIComponent(query + " limit " + limit) + "&format=" + encodeURIComponent(_format) + "&timeout=3000&debug=on";
     
       $.ajax({
@@ -172,4 +201,5 @@
 		alert('error');
 	    }
 	});
+	_map.setView(markers[idg].getBounds().getNorthWest(),10);
   }

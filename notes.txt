@@ -21,3 +21,16 @@ select ?e ?b where {?e a <http://dbpedia.org/ontology/Place> . ?e geo:geometry ?
 
 http://dbpedia.org/sparql?default-graph-uri=http://dbpedia.org&query=PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
 select ?e ?geo where {?e a <http://dbpedia.org/ontology/Place> . ?e geo:geometry ?b} limit 100&format=application/sparql-results+json&timeout=3000&debug=on
+
+
+Bounding Box;
+
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+PREFIX dbo: <http://dbpedia.org/ontology/> 
+SELECT * WHERE {
+?s a dbo:Place .
+?s geo:lat ?lat .
+?s geo:long ?long .
+FILTER ( ?long > -119.80 - 1 && ?long < -119.8 + 1 && ?lat > 34.43 - 1 && ?lat < 34.40 + 1)
+}
+LIMIT 100
