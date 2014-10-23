@@ -1,0 +1,29 @@
+var _attributes = { "data": 
+  {
+    "Takes Reservations": ["Yes","No"],
+    "Delivery": ["Yes","No"],
+    "Take-out": ["Yes","No"],
+    "Accepts Credit Cards": ["Yes","No"],
+    "Good For": ["Breakfast","Brunch","Lunch","Dinner","Late Night"],
+    "Parking": ["Street","Garage","Valet","Private Lot","Validate"],
+    "Bike Parking": ["Yes","No"],
+    "Wheelchair Accessible": ["Yes","No"],
+    "Good for Kids": ["Yes","No"],
+    "Good for Groups": ["Yes","No"],
+    "Attire": ["Casual"],
+    "Ambience": ["Casual"],
+    "Noise Level": ["Loud"],
+    "Music": ["DJ","Juke Box","Live","Karaoke"],
+    "Good For Dancing": ["Yes","No"],
+    "Alcohol": ["Full Bar","Beer & Wine Only","Happy Hour"],
+    "Happy Hour": ["Yes","No"],
+    "Coat Check": ["Yes","No"],
+    "Outdoor Seating": ["Yes","No"],
+    "Wi-Fi": ["Yes","Paid"],
+    "Has TV": ["Yes","No"],
+    "Waiter Service": ["Yes","No"],
+    "Caters": ["Yes","No"],
+    "Price": ["5","4"],
+    "Rating": ["5","4"]
+  }
+};

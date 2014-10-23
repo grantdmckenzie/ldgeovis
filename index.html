@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Linked Data Geovisualizer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/leaflet.css" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <div id="header">
+      <div style="float:left;"><h1>Linked Data Geovisualizer</h1></div>
+      <img src="img/stko.png" style="right:0px;float:right;margin:10px" />
+  </div>
+  <div id="map"></div>
+  <div id="footer">
+    <div style="float:right;margin: 6px 10px; color:#666">
+      Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>
+    </div>
+    <div style="float:left;margin: 6px 10px; color:#666">
+      Design &amp; development by <a href="http://stko.geog.ucsb.edu" target="_blank">STKO | UCSB</a>
+    </div>
+  </div>
+  <div id="sidebar1" class="sidebar">
+    <h3>SPARQL Endpoint</h3>
+    <input type="text" id="sparql" class="sbar" value="http://dbpedia.org/sparql" /><br/>
+    <h3>Default Graph</h3>
+    <input type="text" id="graph" class="sbar" value="http://dbpedia.org" /><br/>
+    <h3>Base Type</h3>
+    <input type="text" id="ont" class="sbar" value="http://dbpedia.org/ontology/Place" /><br/>
+    <div class="btn" id="doQuery">QUERY</div>
+  </div>
+  <div id="sidebar2" class="sidebar">
+    <h3>SubClasses</h3>
+    <select type="text" id="subclassselect" class="sbar" style="width:285px;"></select>
+    <div class="btn" id="doQuerySubClasses">GET SUBCLASSES</div>
+    <div class="btn" id="doQueryEntities">GET ENTITIES OF TYPE</div>
+  </div>
+  <div id="sidebar3" class="sidebar">
+    <div id="back3"/></div>
+    <h3>Entities</h3>
+    <div id="results"></div>
+    <div id="pagination">
+      <div id="pnext">Next ></div>
+    </div>
+  </div>
+  <script src="js/jquery-2.1.1.min.js"></script>
+  <script src="js/leaflet.js"></script>
+  <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+  <script src="js/attributes.json"></script>
+  <script src="js/map.js"></script>
+</body>
+</html>
