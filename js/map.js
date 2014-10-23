@@ -61,8 +61,8 @@
       var oclass = $('#subclassselect').val();
       var prefix = "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>";
       
-      var query = "select ?e ?g where {?e a <" + oclass + "> . ?e geo:geometry ?g}";
-      var url = _sparql + "?default-graph-uri=" + encodeURIComponent(_graph) + "&query=" + encodeURIComponent(prefix + " " + query + " limit " + limit) + "&format=" + encodeURIComponent(_format) + "&timeout=3000&debug=on";
+      var query = "select ?e (group_concat(?c; separator = \"|\") as ?g) where {?e a <" + oclass + "> . ?e geo:geometry ?c}";
+      var url = _sparql + "?default-graph-uri=" + encodeURIComponent(_graph) + "&query=" + encodeURIComponent(prefix + " " + query + " order by ?e limit " + limit) + "&format=" + encodeURIComponent(_format) + "&timeout=3000&debug=on";
     
       
       $.ajax({
@@ -117,7 +117,15 @@
 	  _map.removeLayer(group);
       }
       for(var i=0;i<m.length;i++) {
-	  var x = omnivore.wkt.parse(m[i].g.value);
+	  var ll = m[i].g.value.indexOf('|');
+	  var geo = "";
+	  if (ll == -1) {
+	      geo = m[i].g.value;
+	  } else {
+	      var dd = m[i].g.value.split("|");
+	      geo = dd[0];
+	  }
+	  var x = omnivore.wkt.parse(geo);
 	  var popupOptions = {
 			      'minWidth': '800',
 			      'maxWidth': '600',
