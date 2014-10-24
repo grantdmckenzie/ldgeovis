@@ -39,46 +39,27 @@
   });
   
   
-  function initialQuery() {
-    
-      _sparql = $('#sparql').val();
-      _graph = $('#graph').val();
-      _ontology = $('#ont').val();
-      _format = "application/sparql-results+json";
-      var limit = 100;
-      var prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>";
-      
-      var query = "select distinct ?a where {?a rdfs:subClassOf* <" + _ontology + ">}";
-      
-      var url = _sparql + "?default-graph-uri=" + encodeURIComponent(_graph) + "&query=" + encodeURIComponent(prefix + " " + query + " limit " + limit) + "&format=" + encodeURIComponent(_format) + "&timeout=3000&debug=on";
-    
-      
-      $.ajax({
-	    url: url,
-	    type: 'GET',
-	    dataType: 'json',
-	    success: function(data, textStatus, xhr) {
-		
-		displayResults(data.results.bindings);
-	    },
-	    error: function(xhr, textStatus, errorThrown) {
-		alert('error');
-	    }
-	});
-  }
+
   
   function doQueryEntities() {
       $('#doQueryEntities').hide();
       $('#loadingbtn').show();
-      var limit = $('#limit').val();
-      var oclass = $('#subclassselect').val();
+      var limit = 100;
+      
+      var oclass = _selectedClass; //$('#subclassselect').val();
       var prefix = "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>";
+      
+      var transitive = "";
+      if ($('#transitive').is(":checked")) {
+	transitive = "*";
+      }
+      
       var extent = "";
       if ($('#extent').is(":checked")) {
 	  var b = _map.getBounds();
 	  extent = " . ?e geo:lat ?lat . ?e geo:long ?long . FILTER ( ?long > "+b.getWest()+" && ?long < "+b.getEast()+" && ?lat > "+b.getSouth()+" && ?lat < "+b.getNorth()+")";
       }
-      var query = "select ?e (group_concat(?c; separator = \"|\") as ?g) where {?e a <" + oclass + "> . ?e geo:geometry ?c" + extent +"}";
+      var query = "select ?e (group_concat(?c; separator = \"|\") as ?g) where {?e a"+transitive+" <" + oclass + "> . ?e geo:geometry ?c" + extent +"}";
       
       var url = _sparql + "?default-graph-uri=" + encodeURIComponent(_graph) + "&query=" + encodeURIComponent(prefix + " " + query + " order by ?e limit " + limit) + "&format=" + encodeURIComponent(_format) + "&timeout=3000&debug=on";
     
@@ -98,18 +79,7 @@
 	}); 
   }
   
-  function displayResults(d) {
-      $('#sidebar1').hide();
-      $('#sidebar2').show();
-      for(var i=0;i<d.length;i++) {
-	  var li = d[i].a.value.lastIndexOf('/');
-	  
-	  var x = d[i].a.value.substr(li+1,d[i].a.value.length-li);
-	  $('#subclassselect')
-	      .append($('<option>', { value : d[i].a.value })
-	      .text(x));
-      }
-  }
+
   
   function displayEntity(d) {
       $('#sidebar1').hide();

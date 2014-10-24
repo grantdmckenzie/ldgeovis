@@ -7,6 +7,7 @@
   <link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/leaflet.css" />
   <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <div id="header">
@@ -32,15 +33,15 @@
     <div class="btn" id="doQuery">QUERY</div>
   </div>
   <div id="sidebar2" class="sidebar">
-    <h3>SubClasses</h3>
-    <select type="text" id="subclassselect" class="sbar" style="width:285px;"></select>
-    <div class="btn" id="doQuerySubClasses">GET SUBCLASSES</div>
+    <h3>Classes</h3> 
+    <div id="subclasses"></div>
     
-    <h3>Page Size</h3>
-    <select type="text" id="limit" class="sbar" style="width:285px;"><option value="100">100</option><option value="50">50</option><option value="20">20</option></select>
-    <div style="margin: 8px 0px -3px 0px; display: none;" id="rExtent"><input type="checkbox" id="extent"/> Restrict to Map Extent</div>
-    <div style="margin: 8px 0px -3px 10px;color:#880000" id="wExtent">Zoom In to Restrict to Map Extent</div>
-    <div class="btn" id="doQueryEntities">GET ENTITIES OF TYPE</div>
+    <!-- <h3 style="bottom:163px;position:absolute;">Page Size</h3>
+    <select type="text" id="limit" class="sbar" style="width:285px;bottom:115px;position:absolute;"><option value="100">100</option><option value="50">50</option><option value="20">20</option></select> -->
+    <div style="margin: 8px 0px -3px 0px;bottom:115px;position:absolute;" id="transitive"><input type="checkbox" id="transitive"/> Transitive Query</div>
+    <div style="margin: 8px 0px -3px 0px; display: none;bottom:90px;position:absolute;" id="rExtent"><input type="checkbox" id="extent"/> Restrict to Map Extent</div>
+    <div style="margin: 8px 0px -3px 10px;color:#880000;bottom:90px;position:absolute;" id="wExtent">Zoom In to Restrict to Map Extent</div>
+    <div class="btn" id="doQueryEntities" style="bottom:30px;position:absolute;">GET ENTITIES OF TYPE</div>
     <div class="btn" id="loadingbtn" style="display:none;background-color:#fff"><img src="img/loading.gif"/></div>
     
   </div>
@@ -53,9 +54,11 @@
     </div>
   </div>
   <script src="js/jquery-2.1.1.min.js"></script>
+  <script src="js/jstree.min.js"></script>
   <script src="js/leaflet.js"></script>
   <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
   <script src="js/attributes.json"></script>
+  <script src="js/sparql_initial.js"></script>
   <script src="js/map.js"></script>
 </body>
 </html>

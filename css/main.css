@@ -4,7 +4,7 @@ body {
   margin: 0;
   font-size: 12pt;
   font-family: 'Questrial', sans-serf;
-  color: #000;
+  color: #333;
 }
 a:link, a:visited {
     color: #FF6644;
@@ -134,7 +134,14 @@ a:hover {
     color: #4FC9C4;
     cursor: pointer;
 }
-
+#subclasses {
+   width: 300px;
+   position: absolute;
+   bottom: 135px;
+   top: 50px;
+   overflow-y: auto;
+   overflow-x: hidden;
+}
 h2 {
     margin:0;
     margin-bottom:10px;
