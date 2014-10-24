@@ -34,3 +34,13 @@ SELECT * WHERE {
 FILTER ( ?long > -119.80 - 1 && ?long < -119.8 + 1 && ?lat > 34.43 - 1 && ?lat < 34.40 + 1)
 }
 LIMIT 100
+
+
+
+select ?a (count(?b) as ?c) where {?b a ?a . ?a rdfs:subClassOf* <http://dbpedia.org/ontology/Place> } group by ?a
+
+select ?child ?parent (count(?b) as ?count) where {?child rdfs:subClassOf* <http://dbpedia.org/ontology/Place> . ?child rdfs:subClassOf ?parent . ?b a ?child} group by ?child ?parent
+
+select ?a ?c WHERE {?a <http://dbpedia.org/property/churches> ?c . ?a a <http://dbpedia.org/ontology/Diocese> . filter (datatype(?c) = 'http://www.w3.org/2001/XMLSchema#integer')}
+
+select datatype(?c) as ?dt count(?c) as ?cnt max(?c) as ?max min(?c) as ?min WHERE {?a <http://dbpedia.org/ontology/wikiPageID> ?c . ?a a <http://dbpedia.org/ontology/Diocese>} group by datatype(?c) order by desc(?cnt) limit 1

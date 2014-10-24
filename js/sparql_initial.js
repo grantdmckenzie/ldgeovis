@@ -85,12 +85,12 @@
 	  var x = d[i].prop.value;
 	  if (li != -1) {
 	    x = d[i].prop.value.substr(li+1,d[i].prop.value.length-li);
-	    y = d[i].prop.value.substr(0,li);
+	    y = d[i].prop.value.substr(0,li) + "#";
 	    namespace = loopNameSpaces(ns, y);
 	  } else {
 	      li = d[i].prop.value.lastIndexOf('/');
 	      x = d[i].prop.value.substr(li+1,d[i].prop.value.length-li);
-	      y = d[i].prop.value.substr(0,li);
+	      y = d[i].prop.value.substr(0,li) + "/";
 	      namespace = loopNameSpaces(ns, y);
 	  }
 	  
