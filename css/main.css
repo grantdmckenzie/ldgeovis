@@ -135,12 +135,37 @@ a:hover {
     cursor: pointer;
 }
 #subclasses {
-   width: 300px;
-   position: absolute;
-   bottom: 135px;
-   top: 50px;
+   width:100%;
+   height:50%;
+   overflow-y: auto;
+   padding-right: 10px;
+   overflow-x: hidden;
+}
+.proptext {
+  padding: 4px 0px 4px 15px;
+  margin-right: 10px;
+  color:#333;
+}
+.proptext:hover {
+    background-color: #008C87;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color:#fff;
+}
+#properties {
+   width:100%;
+   height:50%;
    overflow-y: auto;
    overflow-x: hidden;
+   font-size: 0.9em;
+   padding-left: 10px;
+   cursor: pointer;
+}
+#wrapperClassProp {
+   width: 300px;
+   position: absolute;
+   bottom: 186px;
+   top: 30px;
 }
 h2 {
     margin:0;

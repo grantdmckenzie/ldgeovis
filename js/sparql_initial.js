@@ -49,9 +49,69 @@
       _selectedClass = $('#ont').val();
       $('#subclasses').on('changed.jstree', function (e, data) { 
 	    _selectedClass = data.node.id;
+	    $('#properties').html("<img src='img/loading.gif' style='margin-left:100px;margin-top:50px;'/>");
+	    getProperties(_selectedClass);
       }).jstree({ 'core' : {'data' : _parents} });
   }
   
+  function getProperties(c) {
+    
+      var prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>";
+      var query = "select ?prop (count(?prop) as ?count) WHERE {?a ?prop ?c . ?a a <" + c + ">} order by desc (?count)";
+      
+      var url = _sparql + "?default-graph-uri=" + encodeURIComponent(_graph) + "&query=" + encodeURIComponent(prefix + " " + query) + "&format=" + encodeURIComponent(_format) + "&timeout=3000&debug=on";
+    
+      
+      $.ajax({
+	    url: url,
+	    type: 'GET',
+	    dataType: 'json',
+	    success: function(data, textStatus, xhr) {
+		showProperties(data.results.bindings);
+	    },
+	    error: function(xhr, textStatus, errorThrown) {
+		alert('error');
+	    }
+	});
+    
+  }
+  
+  function showProperties(d) {
+      var content = "";
+      var ns = [];
+      var namespace = [];
+      for(var i=0;i<d.length;i++) {
+	  var li = d[i].prop.value.lastIndexOf('#');
+	  var x = d[i].prop.value;
+	  if (li != -1) {
+	    x = d[i].prop.value.substr(li+1,d[i].prop.value.length-li);
+	    y = d[i].prop.value.substr(0,li);
+	    namespace = loopNameSpaces(ns, y);
+	  } else {
+	      li = d[i].prop.value.lastIndexOf('/');
+	      x = d[i].prop.value.substr(li+1,d[i].prop.value.length-li);
+	      y = d[i].prop.value.substr(0,li);
+	      namespace = loopNameSpaces(ns, y);
+	  }
+	  
+	  content += "<div class='proptext' title='"+namespace[1]+"'>" + namespace[0] + ":" + x + " ("+d[i].count.value+")</div>";
+      }
+      $('#properties').html(content);
+  }
+  
+  function loopNameSpaces(ns, uri) {
+      var match = false;
+      for(var g=0;g<ns.length;g++) {
+	  if (ns[g].val == uri)
+	      match = new Array(ns[g].ns, uri);
+      }
+      if (!match) {
+	  ns.push({"ns":"ns"+ns.length, "val":y});
+	  return new Array("ns"+(ns.length-1),uri);
+      } else {
+	  return match;
+      }
+  }
   
   function checkParents(id, parent) {
       var match = false;
