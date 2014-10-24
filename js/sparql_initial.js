@@ -1,5 +1,6 @@
   var _parents = [];
   var _selectedClass = null;
+  var counts = {};
   function initialQuery() {
     
       _sparql = $('#sparql').val();
@@ -8,7 +9,7 @@
       _format = "application/sparql-results+json";
       var limit = 100;
       var prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>";
-      var query = "select distinct ?child ?parent where {?child rdfs:subClassOf* <" + _ontology + "> . ?child rdfs:subClassOf ?parent}";
+      var query = "select ?child ?parent (count(?b) as ?count) where {?child rdfs:subClassOf* <" + _ontology + "> . ?child rdfs:subClassOf ?parent . ?b a ?child} group by ?child ?parent";
       
       var url = _sparql + "?default-graph-uri=" + encodeURIComponent(_graph) + "&query=" + encodeURIComponent(prefix + " " + query + " order by ?child") + "&format=" + encodeURIComponent(_format) + "&timeout=3000&debug=on";
     
@@ -30,13 +31,16 @@
       $('#sidebar1').hide();
       $('#sidebar2').show();
       var data = [];
-      var data2 = {};
+      
       var parents = [];
       for(var i=0;i<d.length;i++) {
 	  path = getParentParent(d[i].parent.value, d, [d[i].child.value]);
 	  data.push(path);
+	  counts[d[i].child.value] = d[i].count.value;
       }
-      _parents.push({ "id" : $('#ont').val(), "parent" : "#", "text" : $('#ont').val() });
+      var li = $('#ont').val().lastIndexOf('/');
+      var x = $('#ont').val().substr(li+1,$('#ont').val().length-li)
+      _parents.push({ "id" : $('#ont').val(), "parent" : "#", "text" : x + " <span style='font-size:0.8em'>("+counts[$('#ont').val()]+")</span>"});
       for(var i=0;i<data.length;i++) {
 	    for(var j=data[i].length-1;j>0;j--) {
 		checkParents(data[i][j-1], data[i][j]);
@@ -59,7 +63,7 @@
       if (!match) {
 	  var li = id.lastIndexOf('/');
 	  var x = id.substr(li+1,id.length-li);
-	  _parents.push({ "id" : id, "parent" : parent, "text" : x	 });
+	  _parents.push({ "id" : id, "parent" : parent, "text" : x + " <span style='font-size:0.8em'>("+counts[id]+")</span>"});
       }
   }
   
