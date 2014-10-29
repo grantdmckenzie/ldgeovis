@@ -47,4 +47,6 @@
 	  _UTILS.showModal("SPARQL Query", query, 420);
       });
       
+      
+      
   });

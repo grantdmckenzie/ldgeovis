@@ -194,12 +194,24 @@ a:hover {
   padding: 4px 0px 4px 15px;
   margin-right: 10px;
   color:#333;
+  margin-bottom:1px;
 }
 .proptext:hover {
-    background-color: #008C87;
+    background-color: #29BBB5;
     -moz-border-radius: 3px;
     border-radius: 3px;
     color:#fff;
+}
+.propinput {
+    display: none;
+    padding:5px 5px;
+    border: solid 1px #ccc;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin:5px 0px;
+    font-size: 1em;
+    color:#333;
+    width: 90%
 }
 #properties {
    width:100%;
@@ -269,6 +281,12 @@ h3 {
   margin-left: 5px;
   margin-top: 20px;
   cursor: pointer;
+}
+.propertyon {
+    background-color: #29BBB5;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color:#fff;
 }
 #btnLoading {
   display: none;

@@ -75,7 +75,8 @@
 	      namespace = loopNameSpaces(ns, n.prefix);
 	  }
 	  
-	  content += "<div class='proptext' title='"+namespace[1]+"'>" + namespace[0] + ":" + n.name + " ("+d[i].count.value+")</div>";
+	  content += "<div class='proptext' id='"+namespace[0]+n.name+"' title='"+namespace[1]+"'><div onclick=\"_STKO.loadDateType('"+d[i].prop.value+"', '"+namespace[0]+n.name+"')\">" + namespace[0] + ":" + n.name + " ("+d[i].count.value+")</div><div style='color:#333;margin: 3px 0px;display:none' id='sub_"+namespace[0]+n.name+"'></div><input type='text' id='input_"+namespace[0]+n.name+"' class='propinput' /></div>";
+	  
       }
       $('#properties').html(content);
       

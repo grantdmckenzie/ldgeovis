@@ -34,6 +34,7 @@
   
   // Load all the properties for the selected class
   _STKO.loadProperties = function(oClass) {
+      this.endpoints.baseClass = oClass;
       this.query.loadProperties = "select ?prop (count(?prop) as ?count) WHERE {?a ?prop ?c . ?a a <" + oClass + ">} order by desc (?count)";
       
       var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.rdfs + " " + this.query.loadProperties) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
@@ -58,7 +59,7 @@
       $('#loadingbtn').show();
 
       var transitive = ($('#transitive').is(":checked")) ? "*" : "";
-      var extent = ($('#extent').is(":checked")) ? " . ?e geo:lat ?lat . ?e geo:long ?long . FILTER ( ?long > "+_MAP.getBounds().getWest()+" && ?long < "+_MAP.getBounds().getEast()+" && ?lat > "+_MAP.getBounds().getSouth()+" && ?lat < "+_MAP.getBounds().getNorth()+")" : "";
+      var extent = ($('#extent').is(":checked")) ? " . ?e geo:lat ?lat . ?e geo:long ?long . FILTER ( ?long > "+_MAP.map.getBounds().getWest()+" && ?long < "+_MAP.map.getBounds().getEast()+" && ?lat > "+_MAP.map.getBounds().getSouth()+" && ?lat < "+_MAP.map.getBounds().getNorth()+")" : "";
 	  
       this.query.loadEntities = "select ?e (group_concat(?c; separator = \"|\") as ?g) where {?e a"+transitive+" <" + _STKO.selectedClass + "> . ?e geo:geometry ?c" + extent +"}";
       
@@ -98,3 +99,38 @@
 	});
 	
   }  
+  
+  _STKO.loadDateType = function(uri, id) {
+      // $('#sub_'+id).html(uri);
+      _UTILS.toggleProperty(id);
+	  
+      if ($('#'+id).hasClass('propertyon')) {
+	this.query.loadDateType = "select str(datatype(?c)) as ?dt count(?c) as ?cnt max(?c) as ?max min(?c) as ?min WHERE {?a <"+uri+"> ?c . ?a a <"+this.endpoints.baseClass+">} group by datatype(?c) order by desc(?cnt) limit 1";
+	
+	var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.geo + " " + this.query.loadDateType) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
+      
+	
+	$.ajax({
+	      url: url,
+	      type: 'GET',
+	      dataType: 'json',
+	      success: function(data, textStatus, xhr) {
+		  
+		if (data.results.bindings[0].hasOwnProperty('dt')) {
+		  var n = _UTILS.getname(data.results.bindings[0].dt.value, "#");
+		  $('#sub_'+id).html("Data Type: "+n.name + "<br/>Value Range: "+data.results.bindings[0].max.value + " to "+data.results.bindings[0].min.value);
+		} else {
+		  $('#sub_'+id).html("Data Type: Non-numeric");
+		}
+		$('#input_'+id).slideDown();
+		$('#sub_'+id).slideDown();
+	      },
+	      error: function(xhr, textStatus, errorThrown) {
+		  _UTILS.showModal("error", textStatus);
+	      }
+	  }); 
+      } else {
+	  $('#input_'+id).slideUp();
+	  $('#sub_'+id).slideUp();
+      }
+  }

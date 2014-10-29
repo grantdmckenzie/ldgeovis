@@ -27,3 +27,6 @@
       $('#loadingbtn').hide();
   }
   
+  _UTILS.toggleProperty = function(id) {
+      $('#'+id).toggleClass('propertyon');
+  }
