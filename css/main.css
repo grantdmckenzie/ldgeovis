@@ -119,6 +119,55 @@ a:hover {
     background-color: #4FC9C4;
     color:#fff;
 }
+#modalMessage {
+  width:300px;
+  height:200px;
+  background-color: #fff;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.9);
+  -moz-box-shadow: 0 0 20px rgba(0,0,0,0.9);
+  box-shadow: 0 0 20px rgba(0,0,0,0.9);
+  padding: 20px;
+  position:absolute;
+  left: 50%;
+  top:50%;
+  margin-left: -150px;
+  margin-top: -100px;
+  z-index: 10;
+  display:none;
+}
+.viewQuery {
+    float: right;
+    margin-right: 7px;
+    margin-top: 5px;
+    font-size: 0.8em;
+    color: #04B4AE;
+    cursor: pointer;
+}
+.viewQuery:hover {
+    text-decoration: underline;
+}
+#modalMessage > #modalHeader {
+  font-size: 1.2em;
+  color: #DF7401;
+  margin-bottom: 10px;
+}
+#modalMessage > #modalContent {
+  font-size: 1.0em;
+  color: #333;
+}
+#modalMessage > #close {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 5px;
+  top: 5px;
+  background-image: url('../img/close.png');
+  cursor: pointer;
+}
+
 .sbar {
     padding:8px 15px;
     border: solid 1px #ccc;
@@ -164,7 +213,7 @@ a:hover {
 #wrapperClassProp {
    width: 300px;
    position: absolute;
-   bottom: 186px;
+   bottom: 200px;
    top: 30px;
 }
 h2 {

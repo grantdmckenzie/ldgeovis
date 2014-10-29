@@ -1,8 +1,15 @@
 
 
-  _UTILS.showModal = function(code, message) {
-    alert(message);
-    // TO DO: add real modal
+  _UTILS.showModal = function(code, message, width) {
+    $('#modalMessage').css('width',width+"px");
+    $('#modalMessage').css('marginLeft', (width/2*-1)+"px");
+    if (code == "error")
+      $('#modalHeader').html("Sorry there was an error");
+    else
+      $('#modalHeader').html(code);
+    
+    $('#modalMessage > #modalContent').html(message);
+    $('#modalMessage').show();
   }
   
   _UTILS.getname = function(val, symbol) {

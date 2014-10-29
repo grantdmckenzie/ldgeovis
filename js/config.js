@@ -32,6 +32,19 @@
 	  _UTILS.back3();
       });
 
+      $('#modalMessage > #close').on('click', function() {
+	  $('#modalMessage').fadeOut();
+      });
+      $('#sidebar1 > #viewDoQuery').on('click', function() {
+	  var baseclass = $('#ont').val();
+	  var query = "SELECT ?child ?parent (count(?b) as ?count)<br/> WHERE {<br/>&nbsp;&nbsp;?child rdfs:subClassOf* &lt;" + (baseclass) + "&gt; . <br/>&nbsp;&nbsp;?child rdfs:subClassOf ?parent .<br/>&nbsp;&nbsp;?b a ?child<br/>}<br/> GROUP BY ?child ?parent";
+	  _UTILS.showModal("SPARQL Query", query, 500);
+      });
       
+      $('#viewdoQueryEntities').on('click', function() {
+	  var baseclass = $('#ont').val();
+	  var query = "SELECT ?prop (count(?prop) as ?count) <br/> WHERE {<br/>&nbsp;&nbsp;?a ?prop ?c .<br/>&nbsp;&nbsp;?a a &lt;" + baseclass + "&gt;<br/>}<br/>ORDER BY desc (?count)";
+	  _UTILS.showModal("SPARQL Query", query, 420);
+      });
       
   });

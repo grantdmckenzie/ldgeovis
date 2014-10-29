@@ -14,7 +14,7 @@
       _MAP.map = L.map('map').setView([20,10], 3);
       L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 	      maxZoom: 18,
-	      id: 'grantdmckenzie.i22pkp10'
+	      id: 'bradley123.k313cfag'
       }).addTo(_MAP.map); 
       
       _MAP.map.on('zoomend', function() {

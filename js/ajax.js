@@ -17,6 +17,8 @@
       
       var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.rdfs + " " + this.query.loadClasses + " order by ?child") + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
       
+      
+      
       $.ajax({
 	    url: url,
 	    type: 'GET',
@@ -25,7 +27,7 @@
 		_STKO.display.loadClasses(data.results.bindings);
 	    },
 	    error: function(xhr, textStatus, errorThrown) {
-		_UTILS.showModal("error", textStatus);
+		_UTILS.showModal("error", textStatus, 300);
 	    }
 	});
   }

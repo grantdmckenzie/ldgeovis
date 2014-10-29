@@ -23,6 +23,7 @@
       Design &amp; development by <a href="http://stko.geog.ucsb.edu" target="_blank">STKO | UCSB</a>
     </div>
   </div>
+  <!-- SIDE BAR 1 -->
   <div id="sidebar1" class="sidebar">
     <h3>SPARQL Endpoint</h3>
     <input type="text" id="sparql" class="sbar" value="http://dbpedia.org/sparql" /><br/>
@@ -31,6 +32,7 @@
     <h3>Base Type</h3>
     <input type="text" id="ont" class="sbar" value="http://dbpedia.org/ontology/Place" /><br/>
     <div class="btn" id="doQuery">QUERY</div>
+    <div class="viewQuery" id="viewDoQuery">View SPARQL Query</div>
   </div>
   <div id="sidebar2" class="sidebar">
     <div id="wrapperClassProp">
@@ -39,11 +41,12 @@
       <h3>Properties</h3> 
       <div id="properties"></div>
     </div>
-    <div style="margin: 8px 0px -3px 0px;bottom:115px;position:absolute;" id="transitive"><input type="checkbox" id="transitive"/> Transitive Query</div>
-    <div style="margin: 8px 0px -3px 0px; display: none;bottom:90px;position:absolute;" id="rExtent"><input type="checkbox" id="extent"/> Restrict to Map Extent</div>
-    <div style="margin: 8px 0px -3px 10px;color:#880000;bottom:90px;position:absolute;" id="wExtent">Zoom In to Restrict to Map Extent</div>
-    <div class="btn" id="doQueryEntities" style="bottom:30px;position:absolute;">GET ENTITIES OF TYPE</div>
-    <div class="btn" id="loadingbtn" style="display:none;background-color:#fff;bottom:30px;position:absolute;"><img src="img/loading.gif"/></div>
+    <div style="margin: 8px 0px -3px 0px;bottom:135px;position:absolute;" id="transitive"><input type="checkbox" id="transitive"/> Transitive Query</div>
+    <div style="margin: 8px 0px -3px 0px; display: none;bottom:110px;position:absolute;" id="rExtent"><input type="checkbox" id="extent"/> Restrict to Map Extent</div>
+    <div style="margin: 8px 0px -3px 10px;color:#880000;bottom:110px;position:absolute;" id="wExtent">Zoom In to Restrict to Map Extent</div>
+    <div class="btn" id="doQueryEntities" style="bottom:50px;position:absolute;">GET ENTITIES</div>
+    <div class="btn" id="loadingbtn" style="display:none;background-color:#fff;bottom:50px;position:absolute;"><img src="img/loading.gif"/></div>
+    <div class="viewQuery" id="viewdoQueryEntities" style="bottom: 30px;position:absolute;right:20px;">View SPARQL Query</div>
     
   </div>
   <div id="sidebar3" class="sidebar">
@@ -54,7 +57,15 @@
       <div id="pnext">Next ></div>
     </div>
   </div>
+  <!-- MODAL -->
+  <div id="modalMessage">
+    <div id="close" title="Close Message"></div>
+    <div id="modalHeader"></div>
+    <div id="modalContent"></div>
+  </div>
+  
   <script src="js/thirdparty/jquery-2.1.1.min.js"></script>
+  <script src="js/thirdparty/jquery.simplemodal.1.4.4.min.js"></script>
   <script src="js/thirdparty/jstree.min.js"></script>
   <script src="js/thirdparty/leaflet.js"></script>
   <script src='js/thirdparty/leaflet-omnivore.min.js'></script>
