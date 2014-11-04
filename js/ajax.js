@@ -8,6 +8,7 @@
 
   // Load the Classes and SubClasses from the given data
   _STKO.loadClasses = function() {
+     $('#doQuery').html("<img src='img/loading.gif'/>");
      this.endpoints.sparql = $('#sparql').val();
      this.endpoints.graph = $('#graph').val();
      this.endpoints.baseclass = $('#ont').val();
@@ -25,9 +26,10 @@
 	    dataType: 'json',
 	    success: function(data, textStatus, xhr) {
 		_STKO.display.loadClasses(data.results.bindings);
+		$('#doQuery').html("QUERY");
 	    },
 	    error: function(xhr, textStatus, errorThrown) {
-		_UTILS.showModal("error", textStatus, 300);
+		_UTILS.showModal("error", textStatus, 300, 100);
 	    }
 	});
   }
@@ -55,8 +57,7 @@
   
   // Load all entities based on the selected class and property criteria
   _STKO.loadEntities = function() {
-      $('#doQueryEntities').hide();
-      $('#loadingbtn').show();
+      $('#doQueryEntities').html("<img src='img/loading.gif'/>");
 
       var transitive = ($('#transitive').is(":checked")) ? "*" : "";
       var extent = ($('#extent').is(":checked")) ? " . ?e geo:lat ?lat . ?e geo:long ?long . FILTER ( ?long > "+_MAP.map.getBounds().getWest()+" && ?long < "+_MAP.map.getBounds().getEast()+" && ?lat > "+_MAP.map.getBounds().getSouth()+" && ?lat < "+_MAP.map.getBounds().getNorth()+")" : "";
@@ -73,6 +74,7 @@
 	    success: function(data, textStatus, xhr) {
 		_STKO.display.loadEntities(data.results.bindings);
 		_MAP.mapEntities(data.results.bindings);
+		$('#doQueryEntities').html("FETCH RESOURCES");
 	    },
 	    error: function(xhr, textStatus, errorThrown) {
 		_UTILS.showModal("error", textStatus);
@@ -123,6 +125,7 @@
 		  $('#sub_'+id).html("Data Type: Non-numeric");
 		}
 		$('#input_'+id).slideDown();
+		$('#equals_'+id).slideDown();
 		$('#sub_'+id).slideDown();
 	      },
 	      error: function(xhr, textStatus, errorThrown) {
@@ -130,7 +133,9 @@
 	      }
 	  }); 
       } else {
+	  
 	  $('#input_'+id).slideUp();
 	  $('#sub_'+id).slideUp();
+	  $('#equals_'+id).slideUp();
       }
   }

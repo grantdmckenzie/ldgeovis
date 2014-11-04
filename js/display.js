@@ -31,7 +31,8 @@
       _STKO.selectedClass = _STKO.endpoints.baseclass;
       $('#subclasses').on('changed.jstree', function (e, data) { 
 	    _STKO.selectedClass = data.node.id;
-	    $('#properties').html("<img src='img/loading.gif' style='margin-left:100px;margin-top:50px;'/>");
+	    _UTILS.accordion.expand("properties");
+	    $('#properties').html("<img src='img/loading2.gif' style='margin-left:100px;margin-top:50px;'/>");
 	    _STKO.loadProperties(_STKO.selectedClass);
       }).jstree({ 'core' : {'data' : parents} });
       
@@ -75,7 +76,7 @@
 	      namespace = loopNameSpaces(ns, n.prefix);
 	  }
 	  
-	  content += "<div class='proptext' id='"+namespace[0]+n.name+"' title='"+namespace[1]+"'><div onclick=\"_STKO.loadDateType('"+d[i].prop.value+"', '"+namespace[0]+n.name+"')\">" + namespace[0] + ":" + n.name + " ("+d[i].count.value+")</div><div style='color:#333;margin: 3px 0px;display:none' id='sub_"+namespace[0]+n.name+"'></div><input type='text' id='input_"+namespace[0]+n.name+"' class='propinput' /></div>";
+	  content += "<div class='proptext' id='"+namespace[0]+n.name+"'><div title='"+namespace[1]+"' onclick=\"_STKO.loadDateType('"+d[i].prop.value+"', '"+namespace[0]+n.name+"')\">" + namespace[0] + ":" + n.name + " ("+d[i].count.value+")</div><div style='color:#333;margin: 3px 0px;display:none' id='sub_"+namespace[0]+n.name+"'></div><div class='equals' id='equals_"+namespace[0]+n.name+"' style='display:none;'><table><tr><td>=</td><td><input type='text' id='input_"+namespace[0]+n.name+"' class='propinput' /></td></tr></table><img src='img/plus.png'/></div></div>";
 	  
       }
       $('#properties').html(content);

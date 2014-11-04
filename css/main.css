@@ -1,77 +1,6 @@
-body {
-  width:100%;
-  height:100%;
-  margin: 0;
-  font-size: 12pt;
-  font-family: 'Questrial', sans-serf;
-  color: #333;
-}
-a:link, a:visited {
-    color: #FF6644;
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-#header {
-  position: absolute;
-  width:100%;
-  margin:0;
-  height: 70px;
-  background-color:#fff;
-  top: 0px;
-  left:0px;
-  z-index: 1;
-  -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.9);
-  -moz-box-shadow: 0 0 20px rgba(0,0,0,0.9);
-  box-shadow: 0 0 20px rgba(0,0,0,0.9);
-}
-#map {
-  position: absolute;
-  width:100%;
-  top: 70px;
-  bottom: 30px;
-}
-#footer {
-  position: absolute;
-  width:100%;
-  margin:0;
-  bottom: 0px;
-  height: 30px;
-  left: 0px;
-  background-color:#fff; 
-  z-index: 1;
-  -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.9);
-  -moz-box-shadow: 0 0 20px rgba(0,0,0,0.9);
-  box-shadow: 0 0 20px rgba(0,0,0,0.9);
-}
 
-.sidebar {
-  top: 80px;
-  width: 300px;
-  right: 10px;
-  position: absolute;
-  border: solid 1px #666;
-  padding: 20px;
-  z-index: 2;
-  /* background-color: #CC99d7; */
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background-color: #ffffff;
-  -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.9);
-  -moz-box-shadow: 0 0 20px rgba(0,0,0,0.9);
-  box-shadow: 0 0 20px rgba(0,0,0,0.9);
-  bottom: 40px;
-}
-#sidebar1 {
-  display: block;
-}
-#sidebar2 {
-  display: none;
-}
-#sidebar3 {
-  display:none;
-}
+
+
 #results {
    width: 300px;
    position: absolute;
@@ -142,16 +71,17 @@ a:hover {
     float: right;
     margin-right: 7px;
     margin-top: 5px;
-    font-size: 0.8em;
-    color: #04B4AE;
     cursor: pointer;
+    width: 16px;
+    height:16px;
+    background-image: url('../img/info.png');
 }
 .viewQuery:hover {
     text-decoration: underline;
 }
 #modalMessage > #modalHeader {
   font-size: 1.2em;
-  color: #DF7401;
+  color: #FF6644;
   margin-bottom: 10px;
 }
 #modalMessage > #modalContent {
@@ -185,7 +115,7 @@ a:hover {
 }
 #subclasses {
    width:100%;
-   height:50%;
+   height:100%;
    overflow-y: auto;
    padding-right: 10px;
    overflow-x: hidden;
@@ -211,22 +141,28 @@ a:hover {
     margin:5px 0px;
     font-size: 1em;
     color:#333;
-    width: 90%
+    width: 100px;
+}
+#about {
+  float: right;
+  margin: 25px 10px;
+  font-size: 1.0em;
 }
 #properties {
    width:100%;
-   height:50%;
+   height:100%;
    overflow-y: auto;
    overflow-x: hidden;
    font-size: 0.9em;
    padding-left: 10px;
    cursor: pointer;
+   display: none;
 }
 #wrapperClassProp {
    width: 300px;
    position: absolute;
-   bottom: 200px;
-   top: 30px;
+   bottom: 130px;
+   top: 120px;
 }
 h2 {
     margin:0;
@@ -263,6 +199,15 @@ h3 {
     cursor: pointer;
     
 }
+#wrapperFacets {
+  border-radius: 3px;
+  border: solid 1px #cccccc;
+  height: 60px;
+  width: 280px;
+  background-color:#eee;
+  padding: 10px;
+  float: left;
+}
 .att > .on {
     color: #000;
     font-weight: bold;
@@ -277,8 +222,8 @@ h3 {
   font-weight: bold;
   font-size: 1.2em;
   text-align:center;
-  width: 280px;
-  margin-left: 5px;
+  width: 290px;
+  margin-left: 0px;
   margin-top: 20px;
   cursor: pointer;
 }

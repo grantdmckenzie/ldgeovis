@@ -31,22 +31,32 @@
       $('#back3').on('click', function() {
 	  _UTILS.back3();
       });
-
+      $('#titleClasses').on('click', function() {
+	  _UTILS.accordion.expand("classes");
+      });
+      $('#titleProperties').on('click', function() {
+	  _UTILS.accordion.expand("properties");
+      });
       $('#modalMessage > #close').on('click', function() {
 	  $('#modalMessage').fadeOut();
       });
       $('#sidebar1 > #viewDoQuery').on('click', function() {
 	  var baseclass = $('#ont').val();
 	  var query = "SELECT ?child ?parent (count(?b) as ?count)<br/> WHERE {<br/>&nbsp;&nbsp;?child rdfs:subClassOf* &lt;" + (baseclass) + "&gt; . <br/>&nbsp;&nbsp;?child rdfs:subClassOf ?parent .<br/>&nbsp;&nbsp;?b a ?child<br/>}<br/> GROUP BY ?child ?parent";
-	  _UTILS.showModal("SPARQL Query", query, 500);
+	  _UTILS.showModal("SPARQL Query", query, 500, 200);
       });
       
-      $('#viewdoQueryEntities').on('click', function() {
-	  var baseclass = $('#ont').val();
+      $('#viewLoadProperties').on('click', function() {
+	  if (_STKO.endpoints.hasOwnProperty("baseClass"))
+	      var baseclass = _STKO.endpoints.baseClass;
+	  else
+	      var baseclass = $('#ont').val();
 	  var query = "SELECT ?prop (count(?prop) as ?count) <br/> WHERE {<br/>&nbsp;&nbsp;?a ?prop ?c .<br/>&nbsp;&nbsp;?a a &lt;" + baseclass + "&gt;<br/>}<br/>ORDER BY desc (?count)";
-	  _UTILS.showModal("SPARQL Query", query, 420);
+	  _UTILS.showModal("SPARQL Query", query, 420, 200);
       });
       
-      
+      $('#about').on('click', function() {
+	  _UTILS.showModal("About LD-GeoViz", txtabout, 700,400);
+      });
       
   });

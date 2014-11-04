@@ -1,8 +1,10 @@
+  _UTILS.accordion = {};
 
-
-  _UTILS.showModal = function(code, message, width) {
+  _UTILS.showModal = function(code, message, width, height) {
     $('#modalMessage').css('width',width+"px");
-    $('#modalMessage').css('marginLeft', (width/2*-1)+"px");
+    $('#modalMessage').css('marginLeft', ((width/2*-1)-20)+"px");
+    $('#modalMessage').css('height',height+"px");
+    $('#modalMessage').css('marginTop', ((height/2*-1)-20)+"px");
     if (code == "error")
       $('#modalHeader').html("Sorry there was an error");
     else
@@ -29,4 +31,15 @@
   
   _UTILS.toggleProperty = function(id) {
       $('#'+id).toggleClass('propertyon');
+  }
+  
+  _UTILS.accordion.expand = function(title) {
+    
+    if(title == "classes") {
+      $('#subclasses').slideDown()
+      $('#properties').slideUp();
+    } else {
+      $('#subclasses').slideUp();
+      $('#properties').slideDown();
+    }
   }

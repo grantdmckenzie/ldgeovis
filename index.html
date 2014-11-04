@@ -4,8 +4,9 @@
   <title>Linked Data Geovisualizer</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+  <link href='css/questrial.css' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/leaflet.css" />
+  <link rel="stylesheet" href="css/page.css" />
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -13,6 +14,7 @@
   <div id="header">
       <div style="float:left;"><h1>Linked Data Geovisualizer</h1></div>
       <img src="img/stko.png" style="right:0px;float:right;margin:10px" />
+      <a id="about" href="#">ABOUT</a>
   </div>
   <div id="map"></div>
   <div id="footer">
@@ -32,21 +34,22 @@
     <h3>Base Type</h3>
     <input type="text" id="ont" class="sbar" value="http://dbpedia.org/ontology/Place" /><br/>
     <div class="btn" id="doQuery">QUERY</div>
-    <div class="viewQuery" id="viewDoQuery">View SPARQL Query</div>
+    <div class="viewQuery" id="viewDoQuery"></div>
   </div>
   <div id="sidebar2" class="sidebar">
+    <div id="titleFacets" style="color:#04B4AE;font-weight:bold;font-size:0.8em;float:right;">Query Bucket</div>
+    <div id="wrapperFacets"></div>
     <div id="wrapperClassProp">
-      <h3>Classes</h3> 
+      <div id="titleClasses" class="titles">Classes</div><!-- <div class="viewQuery" id="viewLoadProperties"></div> -->
       <div id="subclasses"></div>
-      <h3>Properties</h3> 
+      <div id="titleProperties" class="titles">Properties</div> 
       <div id="properties"></div>
     </div>
-    <div style="margin: 8px 0px -3px 0px;bottom:135px;position:absolute;" id="transitive"><input type="checkbox" id="transitive"/> Transitive Query</div>
+    <!-- <div style="margin: 8px 0px -3px 0px;bottom:135px;position:absolute;" id="transitive"><input type="checkbox" id="transitive"/> Transitive Query</div>
     <div style="margin: 8px 0px -3px 0px; display: none;bottom:110px;position:absolute;" id="rExtent"><input type="checkbox" id="extent"/> Restrict to Map Extent</div>
-    <div style="margin: 8px 0px -3px 10px;color:#880000;bottom:110px;position:absolute;" id="wExtent">Zoom In to Restrict to Map Extent</div>
-    <div class="btn" id="doQueryEntities" style="bottom:50px;position:absolute;">GET ENTITIES</div>
-    <div class="btn" id="loadingbtn" style="display:none;background-color:#fff;bottom:50px;position:absolute;"><img src="img/loading.gif"/></div>
-    <div class="viewQuery" id="viewdoQueryEntities" style="bottom: 30px;position:absolute;right:20px;">View SPARQL Query</div>
+    <div style="margin: 8px 0px -3px 10px;color:#880000;bottom:110px;position:absolute;" id="wExtent">Zoom In to Restrict to Map Extent</div> -->
+    <div class="btn" id="doQueryEntities" style="bottom:20px;position:absolute;">MAP RESOURCES</div>
+    <div class="viewQuery" id="viewdoQueryEntities" style="bottom: 5px;position:absolute;right:-4px;"></div>
     
   </div>
   <div id="sidebar3" class="sidebar">
@@ -73,6 +76,7 @@
   <script src="js/map.js"></script>
   <script src="js/display.js"></script>
   <script src="js/ajax.js"></script>
+  <script src="js/txtAbout.js"></script>
   
   
 </body>
