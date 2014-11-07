@@ -76,7 +76,9 @@
 	      namespace = loopNameSpaces(ns, n.prefix);
 	  }
 	  
-	  content += "<div class='proptext' id='"+namespace[0]+n.name+"'><div title='"+namespace[1]+"' onclick=\"_STKO.loadDateType('"+d[i].prop.value+"', '"+namespace[0]+n.name+"')\">" + namespace[0] + ":" + n.name + " ("+d[i].count.value+")</div><div style='color:#333;margin: 3px 0px;display:none' id='sub_"+namespace[0]+n.name+"'></div><div class='equals' id='equals_"+namespace[0]+n.name+"' style='display:none;'><table><tr><td>=</td><td><input type='text' id='input_"+namespace[0]+n.name+"' class='propinput' /></td></tr></table><img src='img/plus.png'/></div></div>";
+	  content += _STKO.display.generateParams(namespace[0], namespace[1], n.name, d[i].prop.value, d[i].count.value);
+	  
+	 
 	  
       }
       $('#properties').html(content);
@@ -111,6 +113,21 @@
       }
   }
   
+  
+  _STKO.display.generateParams = function(namespace, uri, name, full, count) {
+    
+    var mainDiv = "<div class='proptext' id='"+namespace+name+"'>";
+      mainDiv += "<div title='"+uri+"' onclick=\"_STKO.loadDateType('"+full+"', '"+namespace+name+"')\">" + namespace + ":" + name + " ("+count+")</div>";
+      mainDiv += "<div style='color:#333;margin: 3px 0px;display:none' id='sub_"+namespace+name+"'></div>";
+      mainDiv += "<div  class='equals' id='equals_"+namespace+name+"' style='display:none;'>"
+	mainDiv += "<table id='table_"+namespace+name+"'><tr id='tr_"+namespace+name+"'><td onclick='_UTILS.toggleEquals(\"eq_"+namespace+name+"\")' id='eq_"+namespace+name+"' style='font-size:1.3em;width:20px;' class='eq123' title='Click to change condition'>=</td>";
+	mainDiv += "<td><input type='text' id='input_"+namespace+name+"' class='propinput' /></td><td><img id='plus_"+namespace+name+"' onclick='_UTILS.addRow(\""+namespace+name+"\",\"\")' src='img/plus.png' style='width:20px;' title='Add Restriction' /></td>";
+	mainDiv += "</tr></table>";
+	mainDiv += "<div class='addtobucket' onclick='_UTILS.addToBucket(\""+namespace+"\",\""+name+"\")'>Add to Bucket</div>";
+      mainDiv += "</div>";
+    mainDiv += "</div>"; 
+    return mainDiv;
+  }
 
   
 

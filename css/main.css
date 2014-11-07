@@ -125,6 +125,7 @@
   margin-right: 10px;
   color:#333;
   margin-bottom:1px;
+  font-size: 1.1em;
 }
 .proptext:hover {
     background-color: #29BBB5;
@@ -141,7 +142,7 @@
     margin:5px 0px;
     font-size: 1em;
     color:#333;
-    width: 100px;
+    width: 180px;
 }
 #about {
   float: right;
@@ -207,6 +208,8 @@ h3 {
   background-color:#eee;
   padding: 10px;
   float: left;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .att > .on {
     color: #000;
@@ -246,4 +249,23 @@ h3 {
 }
 p {
    text-align:justify;
+}
+.bucketitem {
+   background-color: #FF6644;
+   padding: 5px;
+   border-radius: 4px;
+   border: solid 1px #fff;
+   color: #fff;
+}
+.addtobucket {
+    padding: 5px 10px;
+    font-size: 1.1em;
+    background-color: #FF6644;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 5px;
+    width: 225px;
+    margin-bottom: 10px;
+    margin-top:5px;
+    text-align: center;
 }
