@@ -13,7 +13,7 @@
   _STKO.prefixes = {};
   _STKO.prefixes.rdfs = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>";
   _STKO.prefixes.geo = "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>";
-
+  _STKO.params.restrictions = {};
   var group = null;
   var markers = [];
   

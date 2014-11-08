@@ -123,7 +123,7 @@
 	mainDiv += "<table id='table_"+namespace+name+"'><tr id='tr_"+namespace+name+"'><td onclick='_UTILS.toggleEquals(\"eq_"+namespace+name+"\")' id='eq_"+namespace+name+"' style='font-size:1.3em;width:20px;' class='eq123' title='Click to change condition'>=</td>";
 	mainDiv += "<td><input type='text' id='input_"+namespace+name+"' class='propinput' /></td><td><img id='plus_"+namespace+name+"' onclick='_UTILS.addRow(\""+namespace+name+"\",\"\")' src='img/plus.png' style='width:20px;' title='Add Restriction' /></td>";
 	mainDiv += "</tr></table>";
-	mainDiv += "<div class='addtobucket' onclick='_UTILS.addToBucket(\""+namespace+"\",\""+name+"\")'>Add to Bucket</div>";
+	mainDiv += "<div class='addtobucket' onclick='_UTILS.addToBucket(\""+namespace+"\",\""+name+"\",\""+full+"\")'>Add to Bucket</div>";
       mainDiv += "</div>";
     mainDiv += "</div>"; 
     return mainDiv;

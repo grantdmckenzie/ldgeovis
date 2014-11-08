@@ -85,3 +85,10 @@ a:hover {
 .titles:hover {
     color: #000;
 }
+#wrapperCount {
+    font-size: 0.9em;
+    color: #FF6644;
+    bottom:70px;
+    right: 23px;
+    position:absolute;
+}

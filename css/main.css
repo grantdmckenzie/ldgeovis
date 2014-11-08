@@ -162,7 +162,7 @@
 #wrapperClassProp {
    width: 300px;
    position: absolute;
-   bottom: 130px;
+   bottom: 150px;
    top: 120px;
 }
 h2 {
@@ -252,9 +252,8 @@ p {
 }
 .bucketitem {
    background-color: #FF6644;
-   padding: 5px;
+   padding: 5px 7px;
    border-radius: 4px;
-   border: solid 1px #fff;
    color: #fff;
 }
 .addtobucket {

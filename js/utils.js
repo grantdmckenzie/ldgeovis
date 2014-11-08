@@ -70,19 +70,25 @@
       });
   }
   
-  _UTILS.addToBucket = function(namespace, name) {
+  _UTILS.addToBucket = function(namespace, name, fulluri) {
     
+      var datatype = $('#sub_'+namespace+name).html().substr(11,3);
       var eqs = $('#table_'+namespace+name+' .eq123');
       var inputs = $('#table_'+namespace+name+' .propinput');
+      _STKO.params.restrictions[fulluri] = [];
       var content = "<div id='bucket_"+namespace+name+"' class='bucketitem'>" + namespace+":"+name+ " <span style='font-size:0.8em'>[";
       for(var i=0;i<inputs.length;i++) {
 	    content += eqs[i].innerHTML + inputs[i].value + " & ";
+	    _STKO.params.restrictions[fulluri].push([eqs[i].innerHTML, inputs[i].value, datatype]);
       }
       content = content.substring(0, content.length-3);
-      content += "]</span><div style='float:right;cursor: pointer;'><img src='img/close.png' onclick='_UTILS.removeFromBucket(\"bucket_"+namespace+name+"\")'/></div></div>";
+      content += "]</span><div style='float:right;cursor: pointer;'><img src='img/close.png' onclick='_UTILS.removeFromBucket(\"bucket_"+namespace+name+"\",\""+fulluri+"\")'/></div></div>";
       $('#wrapperFacets').append(content);
+      _STKO.loadCount();
   }
   
-  _UTILS.removeFromBucket = function(id) {
+  _UTILS.removeFromBucket = function(id, fulluri) {
       $('#'+id).remove();
+      delete _STKO.params.restrictions[fulluri];
+      _STKO.loadCount();
   }

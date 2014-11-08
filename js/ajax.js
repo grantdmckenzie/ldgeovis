@@ -47,6 +47,7 @@
 	    dataType: 'json',
 	    success: function(data, textStatus, xhr) {
 		_STKO.display.loadProperties(data.results.bindings);
+		_STKO.loadCount();
 	    },
 	    error: function(xhr, textStatus, errorThrown) {
 		_UTILS.showModal("error", textStatus);
@@ -139,3 +140,63 @@
 	  $('#equals_'+id).slideUp();
       }
   }
+  
+  _STKO.loadCount = function() {
+      $('#wrapperCount').html("<img src='img/loading-mini.gif'/>");
+      var filter = "";
+      var property = "";
+      var count = 0;
+      for(var key in _STKO.params.restrictions) {
+	  var filtertype = _STKO.params.restrictions[key][0][2];
+	  property = key;
+	  if (filtertype == "int" || filtertype == "flo") {
+	    filter += " . ?a <"+key+"> ?b"+count+" . FILTER (";
+	    for(var i=0;i<_STKO.params.restrictions[key].length;i++) {
+		if (_STKO.params.restrictions[key][i][0] == "≠")
+		    var asdf = "!=";
+		else
+		    var asdf = $("<div/>").html(_STKO.params.restrictions[key][i][0]).text();
+		filter += "?b"+count+" " + asdf + " " + _STKO.params.restrictions[key][i][1] + " && ";
+	    }
+	    filter = filter.substr(0, filter.length-4);
+	    filter += ")";
+	  }
+	  count++;
+      }
+      this.query.loadCount = "select count(distinct ?a) as ?cnt WHERE {?a a <"+this.endpoints.baseClass+">"+filter+"}";
+	
+      var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.geo + " " + this.query.loadCount) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
+
+      $.ajax({
+	    url: url,
+	    type: 'GET',
+	    dataType: 'json',
+	    success: function(data, textStatus, xhr) {
+		// alert(data.results.bindings[0].cnt.value);
+		$('#wrapperCount').html("Number of entities matching criteria: "+data.results.bindings[0].cnt.value);
+	    },
+	    error: function(xhr, textStatus, errorThrown) {
+		_UTILS.showModal("error", textStatus);
+	    }
+	}); 
+      // select count(distinct ?a) WHERE { ?a a <http://dbpedia.org/ontology/Garden> . ?a <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?b . FILTER (?b > 40.00)}
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
