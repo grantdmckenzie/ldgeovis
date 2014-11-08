@@ -160,6 +160,17 @@
 	    }
 	    filter = filter.substr(0, filter.length-4);
 	    filter += ")";
+	  } else if (filtertype == "Non") {
+	    filter += " . ?a <"+key+"> ?b"+count+" . FILTER (";
+	    for(var i=0;i<_STKO.params.restrictions[key].length;i++) {
+		if (_STKO.params.restrictions[key][i][0] == "≠")
+		    var asdf = "!=";
+		else
+		    var asdf = $("<div/>").html(_STKO.params.restrictions[key][i][0]).text();
+		filter += "regex(str(?b"+count+"),'"+_STKO.params.restrictions[key][i][1]+"','i') && ";
+	    }
+	    filter = filter.substr(0, filter.length-4);
+	    filter += ")";
 	  }
 	  count++;
       }
