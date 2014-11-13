@@ -17,14 +17,15 @@
 	      id: 'bradley123.k313cfag'
       }).addTo(_MAP.map); 
       
-      _MAP.map.on('zoomend', function() {
-	  if (_MAP.map.getZoom() >= 7) {
-	      $('#rExtent').show();
+      _MAP.map.on('moveend', function() {
+	 /* if (_MAP.map.getZoom() >= 7) {
+	      /$('#rExtent').show();
 	      $('#wExtent').hide();
 	  } else {
 	      $('#rExtent').hide();
 	      $('#wExtent').show();
-	  }
+	  } */
+	 _STKO.loadCount();
       });
   }
   

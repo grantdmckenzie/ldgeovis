@@ -118,10 +118,10 @@
     
     var mainDiv = "<div class='proptext' id='"+namespace+name+"'>";
       mainDiv += "<div title='"+uri+"' onclick=\"_STKO.loadDateType('"+full+"', '"+namespace+name+"')\">" + namespace + ":" + name + " ("+count+")</div>";
-      mainDiv += "<div style='color:#333;margin: 3px 0px;display:none' id='sub_"+namespace+name+"'></div>";
-      mainDiv += "<div  class='equals' id='equals_"+namespace+name+"' style='display:none;'>"
-	mainDiv += "<table id='table_"+namespace+name+"'><tr id='tr_"+namespace+name+"'><td onclick='_UTILS.toggleEquals(\"eq_"+namespace+name+"\")' id='eq_"+namespace+name+"' style='font-size:1.3em;width:20px;' class='eq123' title='Click to change condition'>=</td>";
-	mainDiv += "<td><input type='text' id='input_"+namespace+name+"' class='propinput' /></td><td><img id='plus_"+namespace+name+"' onclick='_UTILS.addRow(\""+namespace+name+"\",\"\")' src='img/plus.png' style='width:20px;' title='Add Restriction' /></td>";
+      mainDiv += "<div style='color:#333;margin: 3px 0px;display:none' id='sub_"+namespace+name+"_'></div>";
+      mainDiv += "<div  class='equals' id='equals_"+namespace+name+"_' style='display:none;'>"
+	mainDiv += "<table id='table_"+namespace+name+"'><tr id='tr_"+namespace+name+"'><td onclick='_UTILS.toggleEquals(\"eq_"+namespace+name+"_\")' id='eq_"+namespace+name+"_' style='font-size:1.3em;width:20px;' class='eq123' title='Click to change condition'>=</td>";
+	mainDiv += "<td><input type='text' id='input_"+namespace+name+"_' class='propinput' /></td><td><img id='plus_"+namespace+name+"_' onclick='_UTILS.addRow(\""+namespace+name+"\",\"\")' src='img/plus.png' style='width:20px;' title='Add Restriction' /></td>";
 	mainDiv += "</tr></table>";
 	mainDiv += "<div class='addtobucket' onclick='_UTILS.addToBucket(\""+namespace+"\",\""+name+"\",\""+full+"\")'>Add to Bucket</div>";
       mainDiv += "</div>";

@@ -46,7 +46,13 @@
   
   
   _UTILS.toggleEquals = function(id) {
-      var symbols = ["=", "≠", "&gt;", "&lt;"];
+      var symbols = ["=", "≠", "&gt;", "&lt;","∃"];
+      var subsymbols = ["=","∃"];
+      var f = id.split("_");
+      var fsub = f.length > 2 ? f[2] : "";
+      var dt = $('#sub_'+f[1]+'_').html().replace("Data Type: ","");
+      if (dt == "URI")
+	 symbols = subsymbols;
       var current = $('#'+id).html();
       for(var i=0;i<symbols.length;i++) {
 	  if (symbols[i] == current && i < symbols.length-1)
@@ -54,19 +60,27 @@
 	  else if (symbols[i] == current)
 	    $('#'+id).html(symbols[0]);
       }
+      
+      if ($('#'+id).html() == "∃") {
+	  $('#input_'+f[1]+'_'+fsub).prop('disabled', true);
+	  $('#plus_'+f[1]+'_'+fsub).hide();
+      } else {
+	  $('#input_'+f[1]+'_'+fsub).prop('disabled', false);
+	  $('#plus_'+f[1]+'_'+fsub).show();
+      }
   }
   
   _UTILS.addRow = function(id, subid) {
       var d = new Date().getTime();
 
-      if ($('#plus_'+id+subid).attr('src') != 'img/close.png') {
-	var mainDiv = "<td onclick='_UTILS.toggleEquals(\"eq_"+id+d+"\")' id='eq_"+id+d+"' style='font-size:1.3em;width:20px;' class='eq123' title='Click to change condition'>=</td><td><input type='text' id='input_"+id+d+"' class='propinput' style='display:inline' /></td><td><img onclick='_UTILS.addRow(\""+id+"\",\""+d+"\")' src='img/plus.png' style='width:20px;' id='plus_"+id+d+"' title='Add Restriction' /></td>";
-	$('#table_'+id+' tr:last').after("<tr id='tr_"+id+d+"'>"+mainDiv+"</tr>");
+      if ($('#plus_'+id+"_"+subid).attr('src') != 'img/close.png') {
+	var mainDiv = "<td onclick='_UTILS.toggleEquals(\"eq_"+id+"_"+d+"\")' id='eq_"+id+"_"+d+"' class='eq123' title='Click to change condition'>=</td><td><input type='text' id='input_"+id+"_"+d+"' class='propinput' style='display:inline' /></td><td><img onclick='_UTILS.addRow(\""+id+"\",\""+d+"\")' src='img/plus.png' style='width:20px;' id='plus_"+id+"_"+d+"' title='Add Restriction' /></td>";
+	$('#table_'+id+' tr:last').after("<tr id='tr_"+id+"_"+d+"'>"+mainDiv+"</tr>");
       }
-      $('#plus_'+id+subid).attr("src","img/close.png");
-      $('#plus_'+id+subid).attr("title","Remove Restriction");
-      $('#plus_'+id+subid).on('click', function() {  
-	  $('#tr_'+id+subid).remove();
+      $('#plus_'+id+"_"+subid).attr("src","img/close.png");
+      $('#plus_'+id+"_"+subid).attr("title","Remove Restriction");
+      $('#plus_'+id+"_"+subid).on('click', function() {  
+      $('#tr_'+id+"_"+subid).remove();
       });
   }
   

@@ -121,13 +121,16 @@
 		  
 		if (data.results.bindings[0].hasOwnProperty('dt')) {
 		  var n = _UTILS.getname(data.results.bindings[0].dt.value, "#");
-		  $('#sub_'+id).html("Data Type: "+n.name + "<br/>Value Range: "+data.results.bindings[0].max.value + " to "+data.results.bindings[0].min.value);
+		  $('#sub_'+id+'_').html("Data Type: Literal ("+n.name + ")<br/>Value Range: "+data.results.bindings[0].max.value + " to "+data.results.bindings[0].min.value);
 		} else {
-		  $('#sub_'+id).html("Data Type: Non-numeric");
+		    if (data.results.bindings[0].max.type == "uri")
+		      $('#sub_'+id+'_').html("Data Type: URI");
+		    else
+		      $('#sub_'+id+'_').html("Data Type: Literal (String)");
 		}
-		$('#input_'+id).slideDown();
-		$('#equals_'+id).slideDown();
-		$('#sub_'+id).slideDown();
+		$('#input_'+id+'_').slideDown();
+		$('#equals_'+id+'_').slideDown();
+		$('#sub_'+id+'_').slideDown();
 	      },
 	      error: function(xhr, textStatus, errorThrown) {
 		  _UTILS.showModal("error", textStatus);
@@ -135,9 +138,9 @@
 	  }); 
       } else {
 	  
-	  $('#input_'+id).slideUp();
-	  $('#sub_'+id).slideUp();
-	  $('#equals_'+id).slideUp();
+	  $('#input_'+id+'_').slideUp();
+	  $('#sub_'+id+'_').slideUp();
+	  $('#equals_'+id+'_').slideUp();
       }
   }
   
@@ -174,8 +177,12 @@
 	  }
 	  count++;
       }
-      this.query.loadCount = "select count(distinct ?a) as ?cnt WHERE {?a a <"+this.endpoints.baseClass+">"+filter+"}";
+      
+      var extent = " . ?a geo:lat ?lat . ?a geo:long ?long . FILTER ( ?long > "+_MAP.map.getBounds().getWest()+" && ?long < "+_MAP.map.getBounds().getEast()+" && ?lat > "+_MAP.map.getBounds().getSouth()+" && ?lat < "+_MAP.map.getBounds().getNorth()+")";
+      
+      this.query.loadCount = "select count(distinct ?a) as ?cnt WHERE {?a a <"+this.endpoints.baseClass+">"+filter+extent+"}";
 	
+      
       var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.geo + " " + this.query.loadCount) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
 
       $.ajax({
@@ -184,7 +191,14 @@
 	    dataType: 'json',
 	    success: function(data, textStatus, xhr) {
 		// alert(data.results.bindings[0].cnt.value);
-		$('#wrapperCount').html("Number of entities matching criteria: "+data.results.bindings[0].cnt.value);
+		$('#wrapperCount').html("Number of matching entities: <b>"+data.results.bindings[0].cnt.value)+"</b>";
+		if (data.results.bindings[0].cnt.value > 2000) {
+		    $('#doQueryEntities').addClass('btndisabled');
+		    $('#doQueryEntities').html('TO MANY ENTITIES, ZOOM IN');
+		} else {
+		    $('#doQueryEntities').removeClass('btndisabled');
+		    $('#doQueryEntities').html('MAP RESOURCES');
+		}
 	    },
 	    error: function(xhr, textStatus, errorThrown) {
 		_UTILS.showModal("error", textStatus);
