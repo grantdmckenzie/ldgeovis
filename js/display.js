@@ -111,6 +111,8 @@
 	  $('#results').append(ent);
 	  counter++;
       }
+      
+   
   }
   
   

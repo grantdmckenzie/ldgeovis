@@ -31,11 +31,35 @@
   
   _MAP.displayPopup = function(d, id) {
       var content = "";
+      var ns = [];
       for(var i=0;i<d.length;i++) {
-	  content += d[i].a.value + ": <span class='subprop'>" + d[i].b.value + "</span><br/>";
+	  var li = d[i].a.value.lastIndexOf('#');
+	  var sub = "";
+	  if (li != -1) {
+	    var n = _UTILS.getname(d[i].a.value, "#");
+	    var namespace = loopNameSpaces(ns, n.prefix+"#");
+	  } else {
+	    var n = _UTILS.getname(d[i].a.value, "/");
+	    var namespace = loopNameSpaces(ns, n.prefix+"/");
+	  }
+	  content += "<span title='"+namespace[1]+"'>" + namespace[0] + ":"+n.name+"</span>: <span class='subprop'>" + d[i].b.value + "</span><br/>";
       }
       $('#pop'+id).html(content);
       this.map.setView(this.markers[id].getBounds().getNorthWest(),10);
+      
+      function loopNameSpaces(ns, uri) {
+	  var match = false;
+	  for(var pre in prefixcc) {
+	      if (prefixcc[pre] == uri)
+		  match = new Array(pre, uri);
+	  }
+	  if (!match) {
+	      ns.push({"ns":"ns"+ns.length, "val":uri});
+	      return new Array("ns"+(ns.length-1),uri);
+	  } else {
+	      return match;
+	  }
+      }
   }
   
   _MAP.showMarkerPopup = function(i, uri) {
