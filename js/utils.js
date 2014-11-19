@@ -86,7 +86,7 @@
   
   _UTILS.addToBucket = function(namespace, name, fulluri) {
     
-      var datatype = $('#sub_'+namespace+name).html().substr(11,3);
+      var datatype = $('#sub_'+namespace+name+'_').html().substr(11,3);
       var eqs = $('#table_'+namespace+name+' .eq123');
       var inputs = $('#table_'+namespace+name+' .propinput');
       _STKO.params.restrictions[fulluri] = [];

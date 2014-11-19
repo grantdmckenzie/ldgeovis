@@ -70,10 +70,10 @@
 	  var li = d[i].prop.value.lastIndexOf('#');
 	  if (li != -1) {
 	    var n = _UTILS.getname(d[i].prop.value, "#");
-	    namespace = loopNameSpaces(ns, n.prefix);
+	    namespace = loopNameSpaces(ns, n.prefix+"#");
 	  } else {
 	      var n = _UTILS.getname(d[i].prop.value, "/");
-	      namespace = loopNameSpaces(ns, n.prefix);
+	      namespace = loopNameSpaces(ns, n.prefix+"/");
 	  }
 	  
 	  content += _STKO.display.generateParams(namespace[0], namespace[1], n.name, d[i].prop.value, d[i].count.value);
@@ -85,9 +85,9 @@
       
       function loopNameSpaces(ns, uri) {
 	  var match = false;
-	  for(var g=0;g<ns.length;g++) {
-	      if (ns[g].val == uri)
-		  match = new Array(ns[g].ns, uri);
+	  for(var pre in prefixcc) {
+	      if (prefixcc[pre] == uri)
+		  match = new Array(pre, uri);
 	  }
 	  if (!match) {
 	      ns.push({"ns":"ns"+ns.length, "val":uri});
