@@ -23,14 +23,14 @@
   height:16px;
   position:absolute;
   top:20px;
-  right:20px;
+/*   right:20px; */
   cursor: pointer;
 }
 #pagination {
   position: absolute;
   bottom:28px;
   height:20px;
-  background-color:#4FC9C4;
+  background-color:#fff;
   width: 300px;
   margin-top: 2px;
   font-size: 0.8em;

@@ -105,9 +105,9 @@
       $('#results').html("");
       var counter = 0;
       for(var i=0;i<d.length;i++) {
-	  var li = d[i].e.value.lastIndexOf('/');
-	  var x = d[i].e.value.substr(li+1,d[i].e.value.length-li);
-	  var ent = "<div id='l"+counter+"' class='resultentity' onclick='_MAP.showMarkerPopup("+i+",\""+d[i].e.value+"\")'>"+decodeURIComponent(x)+"</div>";
+	  var li = d[i].a.value.lastIndexOf('/');
+	  var x = d[i].a.value.substr(li+1,d[i].a.value.length-li);
+	  var ent = "<div id='l"+counter+"' class='resultentity' onclick='_MAP.showMarkerPopup("+i+",\""+d[i].a.value+"\")'>"+decodeURIComponent(x)+"</div>";
 	  $('#results').append(ent);
 	  counter++;
       }

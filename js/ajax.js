@@ -59,13 +59,45 @@
   // Load all entities based on the selected class and property criteria
   _STKO.loadEntities = function() {
       $('#doQueryEntities').html("<img src='img/loading.gif'/>");
-
-      var transitive = ($('#transitive').is(":checked")) ? "*" : "";
-      var extent = ($('#extent').is(":checked")) ? " . ?e geo:lat ?lat . ?e geo:long ?long . FILTER ( ?long > "+_MAP.map.getBounds().getWest()+" && ?long < "+_MAP.map.getBounds().getEast()+" && ?lat > "+_MAP.map.getBounds().getSouth()+" && ?lat < "+_MAP.map.getBounds().getNorth()+")" : "";
-	  
-      this.query.loadEntities = "select ?e (group_concat(?c; separator = \"|\") as ?g) where {?e a"+transitive+" <" + _STKO.selectedClass + "> . ?e geo:geometry ?c" + extent +"}";
+      var filter = "";
+      var property = "";
+      var count = 0;
+      for(var key in _STKO.params.restrictions) {
+	  var filtertype = _STKO.params.restrictions[key][0][2];
+	  property = key;
+	  if (filtertype == "Literal (int" || filtertype == "Literal (flo") {
+	    filter += " . ?a <"+key+"> ?b"+count+" . FILTER (";
+	    for(var i=0;i<_STKO.params.restrictions[key].length;i++) {
+		if (_STKO.params.restrictions[key][i][0] == "≠")
+		    var asdf = "!=";
+		else
+		    var asdf = $("<div/>").html(_STKO.params.restrictions[key][i][0]).text();
+		filter += "?b"+count+" " + asdf + " " + _STKO.params.restrictions[key][i][1] + " && ";
+	    }
+	    filter = filter.substr(0, filter.length-4);
+	    filter += ")";
+	  } else if (filtertype == "Literal (Str") {
+	    filter += " . ?a <"+key+"> ?b"+count+" . FILTER (";
+	    for(var i=0;i<_STKO.params.restrictions[key].length;i++) {
+		if (_STKO.params.restrictions[key][i][0] == "≠") {
+		    var asdf = "!=";
+		    filter += "!regex(str(?b"+count+"),'"+_STKO.params.restrictions[key][i][1]+"','i') && ";
+		} else {
+		    var asdf = $("<div/>").html(_STKO.params.restrictions[key][i][0]).text();
+		    filter += "regex(str(?b"+count+"),'"+_STKO.params.restrictions[key][i][1]+"','i') && ";
+		}
+	    }
+	    filter = filter.substr(0, filter.length-4);
+	    filter += ")";
+	  }
+	  count++;
+      }
       
-      var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.geo + " " + this.query.loadEntities + " order by ?e limit " + this.params.limit) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
+      var extent = " . ?a geo:lat ?lat . ?a geo:long ?long . FILTER ( ?long > \""+Math.round(_MAP.map.getBounds().getWest()*100)/100+"\"^^xsd:float && ?long < \""+Math.round(_MAP.map.getBounds().getEast()*100)/100+"\"^^xsd:float && ?lat > \""+Math.round(_MAP.map.getBounds().getSouth()*100)/100+"\"^^xsd:float && ?lat < \""+Math.round(_MAP.map.getBounds().getNorth()*100)/100+"\"^^xsd:float)";
+      
+      this.query.loadEntities = "select ?a ?lat ?long where {?a a* <"+this.endpoints.baseClass+">"+filter+extent+"}";
+
+      var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.geo + " " + this.query.loadEntities) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
     
       
       $.ajax({
@@ -75,7 +107,7 @@
 	    success: function(data, textStatus, xhr) {
 		_STKO.display.loadEntities(data.results.bindings);
 		_MAP.mapEntities(data.results.bindings);
-		$('#doQueryEntities').html("FETCH RESOURCES");
+		$('#doQueryEntities').html("MAP RESOURCES");
 	    },
 	    error: function(xhr, textStatus, errorThrown) {
 		_UTILS.showModal("error", textStatus);
@@ -152,7 +184,7 @@
       for(var key in _STKO.params.restrictions) {
 	  var filtertype = _STKO.params.restrictions[key][0][2];
 	  property = key;
-	  if (filtertype == "int" || filtertype == "flo") {
+	  if (filtertype == "Literal (int" || filtertype == "Literal (flo") {
 	    filter += " . ?a <"+key+"> ?b"+count+" . FILTER (";
 	    for(var i=0;i<_STKO.params.restrictions[key].length;i++) {
 		if (_STKO.params.restrictions[key][i][0] == "≠")
@@ -163,14 +195,16 @@
 	    }
 	    filter = filter.substr(0, filter.length-4);
 	    filter += ")";
-	  } else if (filtertype == "Non") {
+	  } else if (filtertype == "Literal (Str") {
 	    filter += " . ?a <"+key+"> ?b"+count+" . FILTER (";
 	    for(var i=0;i<_STKO.params.restrictions[key].length;i++) {
-		if (_STKO.params.restrictions[key][i][0] == "≠")
+		if (_STKO.params.restrictions[key][i][0] == "≠") {
 		    var asdf = "!=";
-		else
+		    filter += "!regex(str(?b"+count+"),'"+_STKO.params.restrictions[key][i][1]+"','i') && ";
+		} else {
 		    var asdf = $("<div/>").html(_STKO.params.restrictions[key][i][0]).text();
-		filter += "regex(str(?b"+count+"),'"+_STKO.params.restrictions[key][i][1]+"','i') && ";
+		    filter += "regex(str(?b"+count+"),'"+_STKO.params.restrictions[key][i][1]+"','i') && ";
+		}
 	    }
 	    filter = filter.substr(0, filter.length-4);
 	    filter += ")";
@@ -178,7 +212,7 @@
 	  count++;
       }
       
-      var extent = " . ?a geo:lat ?lat . ?a geo:long ?long . FILTER ( ?long > "+_MAP.map.getBounds().getWest()+" && ?long < "+_MAP.map.getBounds().getEast()+" && ?lat > "+_MAP.map.getBounds().getSouth()+" && ?lat < "+_MAP.map.getBounds().getNorth()+")";
+      var extent = " . ?a geo:lat ?lat . ?a geo:long ?long . FILTER ( ?long > \""+Math.round(_MAP.map.getBounds().getWest()*100)/100+"\"^^xsd:float && ?long < \""+Math.round(_MAP.map.getBounds().getEast()*100)/100+"\"^^xsd:float && ?lat > \""+Math.round(_MAP.map.getBounds().getSouth()*100)/100+"\"^^xsd:float && ?lat < \""+Math.round(_MAP.map.getBounds().getNorth()*100)/100+"\"^^xsd:float)";
       
       this.query.loadCount = "select count(distinct ?a) as ?cnt WHERE {?a a <"+this.endpoints.baseClass+">"+filter+extent+"}";
 	

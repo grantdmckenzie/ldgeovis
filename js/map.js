@@ -45,7 +45,7 @@
 	  content += "<span title='"+namespace[1]+"'>" + namespace[0] + ":"+n.name+"</span>: <span class='subprop'>" + d[i].b.value + "</span><br/>";
       }
       $('#pop'+id).html(content);
-      this.map.setView(this.markers[id].getBounds().getNorthWest(),10);
+      this.map.setView(this.markers[id].getLatLng(),10);
       
       function loopNameSpaces(ns, uri) {
 	  var match = false;
@@ -73,20 +73,15 @@
 	  this.map.removeLayer(this.groupLayer);
       }
       for(var i=0;i<m.length;i++) {
-	  var ll = m[i].g.value.indexOf('|');
-	  var geo = "";
-	  if (ll == -1) {
-	      geo = m[i].g.value;
-	  } else {
-	      var dd = m[i].g.value.split("|");
-	      geo = dd[0];
-	      // TO DO. Currently only takes the first point geometry.  Should take all an possibly map to polygon?
-	  }
-	  var point = omnivore.wkt.parse(geo);
+	  // var ll = m[i].g.value.indexOf('|');
+	  var point = L.marker([m[i].lat.value, m[i].long.value]);
+	  // TO DO. Currently only takes the first point geometry.  Should take all an possibly map to polygon?
+	 
+	  //var point = omnivore.wkt.parse(geo);
 	  var popupOptions = {'minWidth': '800','maxWidth': '600',  'closeButton': true}
 	  
-	  point.bindPopup("<b>"+decodeURIComponent(m[i].e.value)+"</b><br/><div id='pop"+i+"' class='popupdiv'><img src='img/loading.gif' style='margin-left:380px;margin-top:100px'/></div>", popupOptions);
-	  point.urig = m[i].e.value;
+	  point.bindPopup("<b>"+decodeURIComponent(m[i].a.value)+"</b><br/><div id='pop"+i+"' class='popupdiv'><img src='img/loading.gif' style='margin-left:380px;margin-top:100px'/></div>", popupOptions);
+	  point.urig = m[i].a.value;
 	  point.idg = i;
 	  point.on('click', function(e) {
 	      _STKO.loadDetails(this.urig, this.idg);
