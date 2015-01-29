@@ -65,7 +65,7 @@
       for(var key in _STKO.params.restrictions) {
 	  var filtertype = _STKO.params.restrictions[key][0][2];
 	  property = key;
-	  if (filtertype == "Literal (int" || filtertype == "Literal (flo") {
+	  if (filtertype == "Literal (int" || filtertype == "Literal (flo" || filtertype == "Literal (dou") {
 	    filter += " . ?a <"+key+"> ?b"+count+" . FILTER (";
 	    for(var i=0;i<_STKO.params.restrictions[key].length;i++) {
 		if (_STKO.params.restrictions[key][i][0] == "≠")
@@ -184,7 +184,7 @@
       for(var key in _STKO.params.restrictions) {
 	  var filtertype = _STKO.params.restrictions[key][0][2];
 	  property = key;
-	  if (filtertype == "Literal (int" || filtertype == "Literal (flo") {
+	  if (filtertype == "Literal (int" || filtertype == "Literal (flo" || filtertype == "Literal (dou") {
 	    filter += " . ?a <"+key+"> ?b"+count+" . FILTER (";
 	    for(var i=0;i<_STKO.params.restrictions[key].length;i++) {
 		if (_STKO.params.restrictions[key][i][0] == "≠")
