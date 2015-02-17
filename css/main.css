@@ -244,6 +244,29 @@ h3 {
   margin-left: 220px;
   background-position: center;
 }
+#loadingSide {
+  top: 80px;
+  width: 300px;
+  right: 10px;
+  position: absolute;
+  padding: 20px;
+  z-index: 5;
+  /* background-color: #CC99d7; */
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  bottom: 40px;
+  display:none;
+}
+.loadingimg {
+  right: 50%;
+  margin-right: -30px;
+  top: 50%;
+  margin-top: -10px;
+  position:absolute;
+}
 .btn:hover{
   background-color: #29BBB5;
 }

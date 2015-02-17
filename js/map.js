@@ -45,7 +45,9 @@
 	  content += "<span title='"+namespace[1]+"'>" + namespace[0] + ":"+n.name+"</span>: <span class='subprop'>" + d[i].b.value + "</span><br/>";
       }
       $('#pop'+id).html(content);
-      this.map.setView(this.markers[id].getLatLng(),10);
+      // slightly offset the center so the entire popup can be seen.
+      var ll = this.markers[id].getLatLng();
+      this.map.setView([ll.lat+0.2, ll.lng],10);
       
       function loopNameSpaces(ns, uri) {
 	  var match = false;

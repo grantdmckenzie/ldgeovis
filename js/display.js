@@ -11,32 +11,53 @@
       $('#sidebar1').hide();
       $('#sidebar2').show();
       
-      var data = [];
+      var data = {};
       var parents = [];
       var counts = [];
       
+      var n = _UTILS.getname(_STKO.endpoints.baseclass, "#");
+      data[n.name] = null;
       for(var i=0;i<d.length;i++) {
+	  var n = _UTILS.getname(d[i].child.value, "#");
+	  var n2 = _UTILS.getname(d[i].parent.value, "#");
+	  data[n.name] = n2.name;
+      }
+      var treedata = parseTree(data);
+      
+      /* for(var i=0;i<d.length;i++) {
 	  var path = getParentParent(d[i].parent.value, d, [d[i].child.value]);
 	  data.push(path);
 	  counts[d[i].child.value] = d[i].count.value;
       }
       
-      var n = _UTILS.getname(_STKO.endpoints.baseclass, "/");
+      var n = _UTILS.getname(_STKO.endpoints.baseclass, "#");
       parents.push({ "id" : _STKO.endpoints.baseclass, "parent" : "#", "text" : n.name + " <span style='font-size:0.8em'>("+counts[_STKO.endpoints.baseclass]+")</span>"});
       for(var i=0;i<data.length;i++) {
 	    for(var j=data[i].length-1;j>0;j--) {
 		checkParents(data[i][j-1], data[i][j]);
 	    }
-      }
+      } */
       _STKO.selectedClass = _STKO.endpoints.baseclass;
       $('#subclasses').on('changed.jstree', function (e, data) { 
 	    _STKO.selectedClass = data.node.id;
 	    _UTILS.accordion.expand("properties");
 	    $('#properties').html("<img src='img/loading2.gif' style='margin-left:100px;margin-top:50px;'/>");
 	    _STKO.loadProperties(_STKO.selectedClass);
-      }).jstree({ 'core' : {'data' : parents} });
+      }).jstree({ 'core' : {'data' : treedata} });
       
-      function getParentParent(parent, list, path) {
+      function parseTree(tree, root) {
+	  root = typeof root !== 'undefined' ? root : null;
+	  var return1 = [];
+	  for(var child in tree) {
+	      if(tree[child] == root) {
+		  delete tree[child];
+		  return1.push({text: child,state:{opened:true},id:(n.prefix+'#'+child), children:parseTree(tree, child)});
+	      }
+	  }
+	  return return1.length == 0 ? null : return1;    
+      }
+      
+      /*function getParentParent(parent, list, path) {
 	  for(var i=0;i<list.length;i++) {
 	      if (list[i].child.value == parent) {
 		  path.push(parent);
@@ -58,7 +79,7 @@
 	      var x = id.substr(li+1,id.length-li);
 	      parents.push({ "id" : id, "parent" : parent, "text" : x + " <span style='font-size:0.8em'>("+counts[id]+")</span>"});
 	  }
-      }
+      } */
   }
   
   // Display the results of the loadProperties ajax call

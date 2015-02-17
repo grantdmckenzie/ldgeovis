@@ -14,7 +14,8 @@
      this.endpoints.baseclass = $('#ont').val();
      this.params.format = "application/sparql-results+json";
      this.params.limit = 100;
-     this.query.loadClasses = "select ?child ?parent (count(?b) as ?count) where {?child rdfs:subClassOf* <" + this.endpoints.baseclass + "> . ?child rdfs:subClassOf ?parent . ?b a ?child} group by ?child ?parent";
+     //this.query.loadClasses = "select ?child ?parent (count(?b) as ?count) where {?child rdfs:subClassOf <" + this.endpoints.baseclass + "> option(transitive) . ?child rdfs:subClassOf ?parent . ?b a ?child} group by ?child ?parent";
+     this.query.loadClasses = "select ?child ?parent (0) as ?count where {?child rdfs:subClassOf <" + this.endpoints.baseclass + "> option(transitive) . ?child rdfs:subClassOf ?parent} group by ?child ?parent";
       
       var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.rdfs + " " + this.query.loadClasses + " order by ?child") + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
       
@@ -23,7 +24,7 @@
       $.ajax({
 	    url: url,
 	    type: 'GET',
-	    dataType: 'json',
+	    dataType: 'jsonp',
 	    success: function(data, textStatus, xhr) {
 		_STKO.display.loadClasses(data.results.bindings);
 		$('#doQuery').html("QUERY");
@@ -44,7 +45,7 @@
       $.ajax({
 	    url: url,
 	    type: 'GET',
-	    dataType: 'json',
+	    dataType: 'jsonp',
 	    success: function(data, textStatus, xhr) {
 		_STKO.display.loadProperties(data.results.bindings);
 		_STKO.loadCount();
@@ -93,9 +94,9 @@
 	  count++;
       }
       
-      var extent = " . ?a geo:lat ?lat . ?a geo:long ?long . FILTER ( ?long > \""+Math.round(_MAP.map.getBounds().getWest()*100)/100+"\"^^xsd:float && ?long < \""+Math.round(_MAP.map.getBounds().getEast()*100)/100+"\"^^xsd:float && ?lat > \""+Math.round(_MAP.map.getBounds().getSouth()*100)/100+"\"^^xsd:float && ?lat < \""+Math.round(_MAP.map.getBounds().getNorth()*100)/100+"\"^^xsd:float)";
+      var extent = " . ?a <http://adl-gazetteer.geog.ucsb.edu/ONT/ADL#centerLatitude> ?lat . ?a <http://adl-gazetteer.geog.ucsb.edu/ONT/ADL#centerLongitude> ?long . FILTER ( ?long > \""+Math.round(_MAP.map.getBounds().getWest()*100)/100+"\"^^xsd:float && ?long < \""+Math.round(_MAP.map.getBounds().getEast()*100)/100+"\"^^xsd:float && ?lat > \""+Math.round(_MAP.map.getBounds().getSouth()*100)/100+"\"^^xsd:float && ?lat < \""+Math.round(_MAP.map.getBounds().getNorth()*100)/100+"\"^^xsd:float)";
       
-      this.query.loadEntities = "select ?a ?lat ?long where {?a a* <"+this.endpoints.baseClass+">"+filter+extent+"}";
+      this.query.loadEntities = "select ?a ?lat ?long where {?a a <"+this.endpoints.baseClass+"> option(transitive)"+filter+extent+"}";
 
       var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.geo + " " + this.query.loadEntities) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
     
@@ -103,7 +104,7 @@
       $.ajax({
 	    url: url,
 	    type: 'GET',
-	    dataType: 'json',
+	    dataType: 'jsonp',
 	    success: function(data, textStatus, xhr) {
 		_STKO.display.loadEntities(data.results.bindings);
 		_MAP.mapEntities(data.results.bindings);
@@ -124,7 +125,7 @@
 	    url: url,
 	    urig: id,
 	    type: 'GET',
-	    dataType: 'json',
+	    dataType: 'jsonp',
 	    success: function(data, textStatus, xhr) {
 		_MAP.displayPopup(data.results.bindings, this.urig);
 	    },
@@ -137,10 +138,12 @@
   
   _STKO.loadDateType = function(uri, id) {
       // $('#sub_'+id).html(uri);
+    
       _UTILS.toggleProperty(id);
 	  
       if ($('#'+id).hasClass('propertyon')) {
 	this.query.loadDateType = "select str(datatype(?c)) as ?dt count(?c) as ?cnt max(?c) as ?max min(?c) as ?min WHERE {?a <"+uri+"> ?c . ?a a <"+this.endpoints.baseClass+">} group by datatype(?c) order by desc(?cnt) limit 1";
+	$('#loadingSide').show();
 	
 	var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.geo + " " + this.query.loadDateType) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
       
@@ -148,18 +151,22 @@
 	$.ajax({
 	      url: url,
 	      type: 'GET',
-	      dataType: 'json',
+	      dataType: 'jsonp',
 	      success: function(data, textStatus, xhr) {
-		  
+		  $('#loadingSide').hide();
 		if (data.results.bindings[0].hasOwnProperty('dt')) {
 		  var n = _UTILS.getname(data.results.bindings[0].dt.value, "#");
-		  $('#sub_'+id+'_').html("Data Type: Literal ("+n.name + ")<br/>Value Range: "+data.results.bindings[0].max.value + " to "+data.results.bindings[0].min.value);
+		  if (n.name != "string") 
+		    $('#sub_'+id+'_').html("Data Type: Literal ("+n.name + ")<br/>Value Range: "+data.results.bindings[0].max.value + " to "+data.results.bindings[0].min.value);
+		  else
+		      $('#sub_'+id+'_').html("Data Type: Literal (String)");
 		} else {
 		    if (data.results.bindings[0].max.type == "uri")
 		      $('#sub_'+id+'_').html("Data Type: URI");
 		    else
 		      $('#sub_'+id+'_').html("Data Type: Literal (String)");
 		}
+		
 		$('#input_'+id+'_').slideDown();
 		$('#equals_'+id+'_').slideDown();
 		$('#sub_'+id+'_').slideDown();
@@ -177,6 +184,9 @@
   }
   
   _STKO.loadCount = function() {
+      if (!this.endpoints.baseClass)
+	  return;
+      
       $('#wrapperCount').html("<img src='img/loading-mini.gif'/>");
       var filter = "";
       var property = "";
@@ -212,9 +222,9 @@
 	  count++;
       }
       
-      var extent = " . ?a geo:lat ?lat . ?a geo:long ?long . FILTER ( ?long > \""+Math.round(_MAP.map.getBounds().getWest()*100)/100+"\"^^xsd:float && ?long < \""+Math.round(_MAP.map.getBounds().getEast()*100)/100+"\"^^xsd:float && ?lat > \""+Math.round(_MAP.map.getBounds().getSouth()*100)/100+"\"^^xsd:float && ?lat < \""+Math.round(_MAP.map.getBounds().getNorth()*100)/100+"\"^^xsd:float)";
+      var extent = " . ?a <http://adl-gazetteer.geog.ucsb.edu/ONT/ADL#centerLatitude> ?lat . ?a <http://adl-gazetteer.geog.ucsb.edu/ONT/ADL#centerLongitude> ?long . FILTER ( ?long > \""+Math.round(_MAP.map.getBounds().getWest()*100)/100+"\"^^xsd:float && ?long < \""+Math.round(_MAP.map.getBounds().getEast()*100)/100+"\"^^xsd:float && ?lat > \""+Math.round(_MAP.map.getBounds().getSouth()*100)/100+"\"^^xsd:float && ?lat < \""+Math.round(_MAP.map.getBounds().getNorth()*100)/100+"\"^^xsd:float)";
       
-      this.query.loadCount = "select count(distinct ?a) as ?cnt WHERE {?a a <"+this.endpoints.baseClass+">"+filter+extent+"}";
+      this.query.loadCount = "select count(distinct ?a) as ?cnt WHERE {?a a <"+this.endpoints.baseClass+"> option(transitive)"+filter+extent+"}";
 	
       
       var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.geo + " " + this.query.loadCount) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
@@ -222,17 +232,26 @@
       $.ajax({
 	    url: url,
 	    type: 'GET',
-	    dataType: 'json',
+	    dataType: 'jsonp',
 	    success: function(data, textStatus, xhr) {
-		// alert(data.results.bindings[0].cnt.value);
-		$('#wrapperCount').html("Number of matching entities: <b>"+data.results.bindings[0].cnt.value)+"</b>";
-		if (data.results.bindings[0].cnt.value > 2000) {
+		var cnt = -99;
+		var infite = '&infin;';
+		if (data.results.bindings.length > 0 && data.results.bindings[0].hasOwnProperty('cnt')) {
+		  cnt = data.results.bindings[0].cnt.value;
+		}
+		var symb = cnt == -99 ? infite : cnt;
+		$('#wrapperCount').html("Number of matching entities: <b>"+symb)+"</b>";
+		if (cnt > 2000 || cnt == -99) {
 		    $('#doQueryEntities').addClass('btndisabled');
 		    $('#doQueryEntities').html('TO MANY ENTITIES, ZOOM IN');
+		} else if (cnt = 0) {
+		    $('#doQueryEntities').addClass('btndisabled');
+		    $('#doQueryEntities').html('NO ENTITIES IN MAP EXTENT');
 		} else {
 		    $('#doQueryEntities').removeClass('btndisabled');
 		    $('#doQueryEntities').html('MAP RESOURCES');
 		}
+	      
 	    },
 	    error: function(xhr, textStatus, errorThrown) {
 		_UTILS.showModal("error", textStatus);

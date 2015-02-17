@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>LDGeoVis</title>
+  <title>Alexandria Digital Library</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href='css/questrial.css' rel='stylesheet' type='text/css'>
@@ -12,7 +12,7 @@
 </head>
 <body>
   <div id="header">
-      <div style="float:left;"><h1>Linked Data Geovisualizer</h1></div>
+      <div style="float:left;"><h1>Alexandria Digital Library</h1></div>
       <img src='img/beta.png' style='float:left;margin-top:10px;'/>
       <img src="img/stko.png" style="right:0px;float:right;margin:10px" />
       <a id="about" href="#">ABOUT</a>
@@ -29,11 +29,13 @@
   <!-- SIDE BAR 1 -->
   <div id="sidebar1" class="sidebar">
     <h3>SPARQL Endpoint</h3>
-    <input type="text" id="sparql" class="sbar" value="http://dbpedia.org/sparql" /><br/>
+    <input type="text" id="sparql" class="sbar" value="http://adl-gazetteer.geog.ucsb.edu:8890/sparql" /><br/>
+   <!-- "http://dbpedia.org/sparql -->
+    
     <h3>Default Graph</h3>
-    <input type="text" id="graph" class="sbar" value="http://dbpedia.org" /><br/>
+    <input type="text" id="graph" class="sbar" value="http://adl-gazetteer.geog.ucsb.edu" /><br/>
     <h3>Base Type</h3>
-    <input type="text" id="ont" class="sbar" value="http://dbpedia.org/ontology/Place" /><br/>
+    <input type="text" id="ont" class="sbar" value="http://adl-gazetteer.geog.ucsb.edu/ONT/ADL#mountains" /><br/>
     <div class="btn" id="doQuery">QUERY</div>
     <div class="viewQuery" id="viewDoQuery"></div>
   </div>
@@ -69,6 +71,7 @@
     <div id="modalHeader"></div>
     <div id="modalContent"></div>
   </div>
+  <div id="loadingSide"><img src="img/loading2.gif" class='loadingimg' alt="loading"/></div>
   
   <script src="js/thirdparty/jquery-2.1.1.min.js"></script>
   <script src="js/thirdparty/jstree.min.js"></script>
