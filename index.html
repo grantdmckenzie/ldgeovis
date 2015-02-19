@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/leaflet.css" />
   <link rel="stylesheet" href="css/page.css" />
   <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/layers.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -28,6 +29,7 @@
   </div>
   <!-- SIDE BAR 1 -->
   <div id="sidebar1" class="sidebar">
+  <div id="wrapperSideBarExpand"></div>
     <h3>SPARQL Endpoint</h3>
     <input type="text" id="sparql" class="sbar" value="http://adl-gazetteer.geog.ucsb.edu:8890/sparql" /><br/>
    <!-- "http://dbpedia.org/sparql -->
@@ -48,9 +50,6 @@
       <div id="titleProperties" class="titles">Properties</div> 
       <div id="properties"></div>
     </div>
-    <!-- <div style="margin: 8px 0px -3px 0px;bottom:135px;position:absolute;" id="transitive"><input type="checkbox" id="transitive"/> Transitive Query</div>
-    <div style="margin: 8px 0px -3px 0px; display: none;bottom:110px;position:absolute;" id="rExtent"><input type="checkbox" id="extent"/> Restrict to Map Extent</div>
-    <div style="margin: 8px 0px -3px 10px;color:#880000;bottom:110px;position:absolute;" id="wExtent">Zoom In to Restrict to Map Extent</div> -->
     <div id="wrapperCount"></div>
     <div class="btn btndisabled" id="doQueryEntities" style="bottom:30px;position:absolute;">MAP RESOURCES</div>
     <div style="bottom:15px;position:absolute;font-size:0.9em;color:#666">Results are bounded by Map Extent</div>
@@ -71,13 +70,22 @@
     <div id="modalHeader"></div>
     <div id="modalContent"></div>
   </div>
+  <!-- SIDEBAR LOADING DIV -->
   <div id="loadingSide"><img src="img/loading2.gif" class='loadingimg' alt="loading"/></div>
+  <!-- LAYERS DIV -->
+  <div id="wrapperLayers">
+    <h3>LAYERS</h3>
+    <div id="layersContainer"></div>
+    <div id="wrapperLayersExpand" class="rotate">LAYERS</div>
+  </div>
+ 
   
+  <!-- CALL SCRIPTS -->
   <script src="js/thirdparty/jquery-2.1.1.min.js"></script>
   <script src="js/thirdparty/jstree.min.js"></script>
   <script src="js/thirdparty/leaflet.js"></script>
   <script src='js/thirdparty/leaflet-omnivore.min.js'></script>
-   <script src="js/thirdparty/prefixcc.json"></script>
+  <script src="js/thirdparty/prefixcc.json"></script>
   <script src="js/config.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/map.js"></script>

@@ -48,21 +48,21 @@ a:hover {
 }
 
 .sidebar {
-  top: 80px;
-  width: 300px;
-  right: 10px;
+  top: 78px;
+  width: 400px;
+  right: 0px;
   position: absolute;
   border: solid 1px #666;
   padding: 20px;
   z-index: 2;
   /* background-color: #CC99d7; */
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+  -moz-border-radius: 2px;
+  border-radius: 10px 0px 0px 2px;
   background-color: #ffffff;
   -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.9);
   -moz-box-shadow: 0 0 20px rgba(0,0,0,0.9);
   box-shadow: 0 0 20px rgba(0,0,0,0.9);
-  bottom: 40px;
+  bottom: 47px;
 }
 #sidebar1 {
   display: block;
@@ -72,6 +72,17 @@ a:hover {
 }
 #sidebar3 {
   display:none;
+}
+
+#wrapperSideBarExpand {
+    background-image: url('../img/wforward.png');
+    width: 8px;
+    height:10px;
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    z-index: 3;
+    cursor: pointer;
 }
 
 .titles {

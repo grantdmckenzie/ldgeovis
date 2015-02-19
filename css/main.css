@@ -2,7 +2,7 @@
 
 
 #results {
-   width: 300px;
+   width: 400px;
    position: absolute;
    bottom: 40px;
    top: 50px;
@@ -37,8 +37,8 @@
 }
 .resultentity {
     background-color: #008C87;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
     padding: 4px;
     color: #fff;
     cursor: pointer;
@@ -52,8 +52,8 @@
   width:300px;
   height:200px;
   background-color: #fff;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
   background-color: #ffffff;
   -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.9);
   -moz-box-shadow: 0 0 20px rgba(0,0,0,0.9);
@@ -100,10 +100,10 @@
 
 .sbar {
     padding:8px 15px;
-    border: solid 1px #ccc;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    width:255px;
+    border: solid 1px #e5f7f6;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    width:355px;
     margin:5px;
     font-size: 16px;
     color:#999;
@@ -129,16 +129,16 @@
 }
 .proptext:hover {
     background-color: #29BBB5;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
     color:#fff;
 }
 .propinput {
     display: none;
     padding:5px 5px;
     border: solid 1px #ccc;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
     margin:5px 0px;
     font-size: 1em;
     color:#333;
@@ -160,7 +160,7 @@
    display: none;
 }
 #wrapperClassProp {
-   width: 300px;
+   width: 400px;
    position: absolute;
    bottom: 160px;
    top: 120px;
@@ -201,10 +201,10 @@ h3 {
     
 }
 #wrapperFacets {
-  border-radius: 3px;
+  border-radius: 2px;
   border: solid 1px #cccccc;
   height: 60px;
-  width: 280px;
+  width: 380px;
   background-color:#eee;
   padding: 10px;
   float: left;
@@ -217,23 +217,23 @@ h3 {
 }
 
 .btn {
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
   padding: 13px 4px;
   color: #fff;
   background-color:#04B4AE;
   font-weight: bold;
   font-size: 1.2em;
   text-align:center;
-  width: 290px;
+  width: 390px;
   margin-left: 0px;
   margin-top: 20px;
   cursor: pointer;
 }
 .propertyon {
     background-color: #29BBB5;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
     color:#fff;
 }
 #btnLoading {
@@ -246,14 +246,14 @@ h3 {
 }
 #loadingSide {
   top: 80px;
-  width: 300px;
+  width: 400px;
   right: 10px;
   position: absolute;
   padding: 20px;
   z-index: 5;
   /* background-color: #CC99d7; */
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
   background-color: #ffffff;
   opacity: 0.4;
   filter: alpha(opacity=40);

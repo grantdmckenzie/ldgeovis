@@ -11,22 +11,38 @@
  
   function loadMap() {
     
-      _MAP.map = L.map('map').setView([20,10], 3);
+      // Set up the Map Object
+      _MAP.map = L.map('map',{zoomControl:false}).setView([20,10], 3);
       L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 	      maxZoom: 18,
-	      id: 'bradley123.k313cfag'
+	      id: 'bradley123.k313cfag',
+	      
       }).addTo(_MAP.map); 
       
+      // Every time the map is moved check to see how many entities fit the criteria
       _MAP.map.on('moveend', function() {
-	 /* if (_MAP.map.getZoom() >= 7) {
-	      /$('#rExtent').show();
-	      $('#wExtent').hide();
-	  } else {
-	      $('#rExtent').hide();
-	      $('#wExtent').show();
-	  } */
 	 _STKO.loadCount();
       });
+      
+      $('#wrapperLayersExpand').on('click', function() {
+	  
+	  if ($('#wrapperLayers').css('left') == '0px') {
+	    $('#wrapperLayers').animate({left: '-222px'});
+	  } else {
+	    $('#wrapperLayers').animate({left:'0px'});
+	  }
+      });
+      
+      $('#wrapperSideBarExpand').on('click', function() {
+	  if ($('.sidebar').css('right') == '0px') {
+	    $('.sidebar').animate({right:'-422px'});
+	    $(this).css('background-image','url(\'img/wback.png\')');
+	  } else {
+	    $('.sidebar').animate({right:'0px'});
+	    $(this).css('background-image','url(\'img/wforward.png\')');
+	  }
+      });    
+      
   }
   
   _MAP.displayPopup = function(d, id) {
@@ -45,7 +61,7 @@
 	  content += "<span title='"+namespace[1]+"'>" + namespace[0] + ":"+n.name+"</span>: <span class='subprop'>" + d[i].b.value + "</span><br/>";
       }
       $('#pop'+id).html(content);
-      // slightly offset the center so the entire popup can be seen.
+      // slightly offset the center so the entire popup can be seen.	
       var ll = this.markers[id].getLatLng();
       this.map.setView([ll.lat+0.2, ll.lng],10);
       
@@ -75,7 +91,6 @@
 	  this.map.removeLayer(this.groupLayer);
       }
       for(var i=0;i<m.length;i++) {
-	  // var ll = m[i].g.value.indexOf('|');
 	  var point = L.marker([m[i].lat.value, m[i].long.value]);
 	  // TO DO. Currently only takes the first point geometry.  Should take all an possibly map to polygon?
 	 

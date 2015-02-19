@@ -56,7 +56,7 @@
       });
       
       $('#about').on('click', function() {
-	  _UTILS.showModal("About LD-GeoViz", txtabout, 700,400);
+	  _UTILS.showModal("Alexandria Digital Library", txtabout, 700,400);
       });
       
   });
