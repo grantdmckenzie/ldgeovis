@@ -9,13 +9,14 @@
   var _MAP = {};
 
   var _UTILS = {};
-  var _STKO = {"endpoints": {}, "params":{}, "query": {}, "display": {}};
+  var _STKO = {"endpoints": {}, "params":{}, "query": {}, "display": {}, "layers": {}};
   _STKO.prefixes = {};
   _STKO.prefixes.rdfs = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>";
   _STKO.prefixes.geo = "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>";
   _STKO.params.restrictions = {};
   var group = null;
   var markers = [];
+  var markericon = L.icon({iconUrl: 'img/marker_blue.png', iconSize:[25, 34], iconAnchor:[22, 34], popupAnchor:[-12, 17]})
   
   $(function() {
 
@@ -26,7 +27,8 @@
 	  _STKO.loadClasses();
       });
       $('#doQueryEntities').on('click', function() {
-	  _STKO.loadEntities();
+	  //_STKO.loadEntities();
+	  _STKO.layers.addLayer();
       });
       $('#back3').on('click', function() {
 	  _UTILS.back3();
@@ -58,5 +60,25 @@
       $('#about').on('click', function() {
 	  _UTILS.showModal("Alexandria Digital Library", txtabout, 700,400);
       });
+      
+      $('#wrapperLayersExpand').on('click', function() {
+	  
+	  if ($('#wrapperLayers').css('left') == '0px') {
+	    $('#wrapperLayers').animate({left: '-322px'});
+	  } else {
+	    $('#wrapperLayers').animate({left:'0px'});
+	  }
+      });
+      
+      $('#wrapperSideBarExpand').on('click', function() {
+	  if ($('.sidebar').css('right') == '0px') {
+	    $('.sidebar').animate({right:'-422px'});
+	    $(this).css('background-image','url(\'img/wback.png\')');
+	  } else {
+	    $('.sidebar').animate({right:'0px'});
+	    $(this).css('background-image','url(\'img/wforward.png\')');
+	  }
+      });
+      
       
   });

@@ -37,6 +37,8 @@
 		checkParents(data[i][j-1], data[i][j]);
 	    }
       } */
+      $.jstree.destroy();
+      
       _STKO.selectedClass = _STKO.endpoints.baseclass;
       $('#subclasses').on('changed.jstree', function (e, data) { 
 	    _STKO.selectedClass = data.node.id;

@@ -7,7 +7,9 @@
  * ======================================== */
 
   _MAP.markers = [];
-  _MAP.groupLayer = {};
+  _MAP.groupLayers = {};
+  _MAP.markericons = ['0067a3','d252b9','d63e2a','f69730','5b396b','72b026','38aadd'];
+
  
   function loadMap() {
     
@@ -23,26 +25,7 @@
       _MAP.map.on('moveend', function() {
 	 _STKO.loadCount();
       });
-      
-      $('#wrapperLayersExpand').on('click', function() {
-	  
-	  if ($('#wrapperLayers').css('left') == '0px') {
-	    $('#wrapperLayers').animate({left: '-222px'});
-	  } else {
-	    $('#wrapperLayers').animate({left:'0px'});
-	  }
-      });
-      
-      $('#wrapperSideBarExpand').on('click', function() {
-	  if ($('.sidebar').css('right') == '0px') {
-	    $('.sidebar').animate({right:'-422px'});
-	    $(this).css('background-image','url(\'img/wback.png\')');
-	  } else {
-	    $('.sidebar').animate({right:'0px'});
-	    $(this).css('background-image','url(\'img/wforward.png\')');
-	  }
-      });    
-      
+    
   }
   
   _MAP.displayPopup = function(d, id) {
@@ -90,8 +73,10 @@
       if(this.map.hasLayer(this.groupLayer)) {
 	  this.map.removeLayer(this.groupLayer);
       }
+      var markericon = L.icon({iconUrl: "img/marker_"+_STKO.layers.layers[_STKO.layers.activeLayer].color+".png", iconSize:[25, 34], iconAnchor:[12, 33], popupAnchor:[0, -20]});
       for(var i=0;i<m.length;i++) {
-	  var point = L.marker([m[i].lat.value, m[i].long.value]);
+	  
+	  var point = L.marker([m[i].lat.value, m[i].long.value], {icon: markericon});
 	  // TO DO. Currently only takes the first point geometry.  Should take all an possibly map to polygon?
 	 
 	  //var point = omnivore.wkt.parse(geo);
@@ -100,13 +85,16 @@
 	  point.bindPopup("<b>"+decodeURIComponent(m[i].a.value)+"</b><br/><div id='pop"+i+"' class='popupdiv'><img src='img/loading.gif' style='margin-left:380px;margin-top:100px'/></div>", popupOptions);
 	  point.urig = m[i].a.value;
 	  point.idg = i;
+	  point.graph = _STKO.layers.layers[_STKO.layers.activeLayer].graph;
+	  point.endpoint = _STKO.layers.layers[_STKO.layers.activeLayer].endpoint;
 	  point.on('click', function(e) {
-	      _STKO.loadDetails(this.urig, this.idg);
+	      _STKO.loadDetails(this.urig, this.idg, this.graph, this.endpoint);
 	  });
 	  this.markers.push(point);
       }
-      this.groupLayer = L.layerGroup(this.markers);
-      this.map.addLayer(this.groupLayer);
+      _STKO.layers.layers[_STKO.layers.activeLayer].maplayer = L.layerGroup(this.markers);
+      this.map.addLayer(_STKO.layers.layers[_STKO.layers.activeLayer].maplayer);
+   
      
   }
   

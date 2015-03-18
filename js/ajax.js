@@ -58,8 +58,8 @@
   }
   
   // Load all entities based on the selected class and property criteria
-  _STKO.loadEntities = function() {
-      $('#doQueryEntities').html("<img src='img/loading.gif'/>");
+  _STKO.loadEntities = function(url) {
+      /* $('#doQueryEntities').html("<img src='img/loading.gif'/>");
       var filter = "";
       var property = "";
       var count = 0;
@@ -98,7 +98,7 @@
       
       this.query.loadEntities = "select ?a ?lat ?long where {?a a <"+this.endpoints.baseClass+"> option(transitive)"+filter+extent+"}";
 
-      var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.geo + " " + this.query.loadEntities) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
+      var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.prefixes.geo + " " + this.query.loadEntities) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on"; */
     
       
       $.ajax({
@@ -106,9 +106,9 @@
 	    type: 'GET',
 	    dataType: 'jsonp',
 	    success: function(data, textStatus, xhr) {
-		_STKO.display.loadEntities(data.results.bindings);
+		// _STKO.display.loadEntities(data.results.bindings);
 		_MAP.mapEntities(data.results.bindings);
-		$('#doQueryEntities').html("MAP RESOURCES");
+		// $('#doQueryEntities').html("ADD TO LAYERS");
 	    },
 	    error: function(xhr, textStatus, errorThrown) {
 		_UTILS.showModal("error", textStatus);
@@ -117,9 +117,9 @@
   }
   
   // Load Details of a specific entity.  All properties and values
-  _STKO.loadDetails = function(uri, id) {
+  _STKO.loadDetails = function(uri, id, graph, endpoint) {
       this.query.loadDetails = "select ?a ?b where {<" + uri + "> ?a ?b}";
-      var url = this.endpoints.sparql + "?default-graph-uri=" + encodeURIComponent(this.endpoints.graph) + "&query=" + encodeURIComponent(this.query.loadDetails + " limit " + this.params.limit) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
+      var url = endpoint + "?default-graph-uri=" + encodeURIComponent(graph) + "&query=" + encodeURIComponent(this.query.loadDetails + " limit " + this.params.limit) + "&format=" + encodeURIComponent(this.params.format) + "&timeout=3000&debug=on";
     
       $.ajax({
 	    url: url,
@@ -239,8 +239,8 @@
 		if (data.results.bindings.length > 0 && data.results.bindings[0].hasOwnProperty('cnt')) {
 		  cnt = data.results.bindings[0].cnt.value;
 		}
-		var symb = cnt == -99 ? infite : cnt;
-		$('#wrapperCount').html("Number of matching entities: <b>"+symb)+"</b>";
+		// var symb = cnt == -99 ? infite : cnt;
+		$('#wrapperCount').html("Number of matching entities: <b>"+cnt)+"</b>";
 		if (cnt > 2000 || cnt == -99) {
 		    $('#doQueryEntities').addClass('btndisabled');
 		    $('#doQueryEntities').html('TO MANY ENTITIES, ZOOM IN');
@@ -249,7 +249,7 @@
 		    $('#doQueryEntities').html('NO ENTITIES IN MAP EXTENT');
 		} else {
 		    $('#doQueryEntities').removeClass('btndisabled');
-		    $('#doQueryEntities').html('MAP RESOURCES');
+		    $('#doQueryEntities').html('ADD TO LAYERS');
 		}
 	      
 	    },

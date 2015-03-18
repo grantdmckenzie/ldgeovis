@@ -13,8 +13,8 @@
 </head>
 <body>
   <div id="header">
-      <div style="float:left;"><h1>Alexandria Digital Library</h1></div>
-      <img src='img/beta.png' style='float:left;margin-top:10px;'/>
+      <div style="float:left;width:565px"><img src="img/adllogo.gif" style='float:left;width:40px;margin:10px' /><h1>Alexandria Digital Library</h1></div>
+      <img src='img/beta.png' style='float:left;margin-top:10px;width:20px'/>
       <img src="img/stko.png" style="right:0px;float:right;margin:10px" />
       <a id="about" href="#">ABOUT</a>
   </div>
@@ -51,7 +51,7 @@
       <div id="properties"></div>
     </div>
     <div id="wrapperCount"></div>
-    <div class="btn btndisabled" id="doQueryEntities" style="bottom:30px;position:absolute;">MAP RESOURCES</div>
+    <div class="btn btndisabled" id="doQueryEntities" style="bottom:30px;position:absolute;">ADD TO LAYERS</div>
     <div style="bottom:15px;position:absolute;font-size:0.9em;color:#666">Results are bounded by Map Extent</div>
     <div class="viewQuery" id="viewdoQueryEntities" style="bottom: 5px;position:absolute;right:-4px;"></div>
     
@@ -74,7 +74,6 @@
   <div id="loadingSide"><img src="img/loading2.gif" class='loadingimg' alt="loading"/></div>
   <!-- LAYERS DIV -->
   <div id="wrapperLayers">
-    <h3>LAYERS</h3>
     <div id="layersContainer"></div>
     <div id="wrapperLayersExpand" class="rotate">LAYERS</div>
   </div>
@@ -91,6 +90,7 @@
   <script src="js/map.js"></script>
   <script src="js/display.js"></script>
   <script src="js/ajax.js"></script>
+  <script src="js/layers.js"></script>
   <script src="js/txtAbout.js"></script>
   
   
